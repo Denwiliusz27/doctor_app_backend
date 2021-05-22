@@ -32,6 +32,10 @@ public class City {
         this.nazwa = nazwa;
     }
 
+    public City(String nazwa) {
+        this.nazwa = nazwa;
+    }
+
     public long getIdMiasta() {
         return idMiasta;
     }
