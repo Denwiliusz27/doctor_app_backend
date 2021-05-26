@@ -1,4 +1,4 @@
-package com.daniel.doctorappbackend.cities;
+package com.daniel.doctorappbackend.city;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface CityDao extends CrudRepository<City, Long> {
     List<City> findAll();
 
-    Optional<City> findByNazwa(String nazwa);
+    Optional<City> findByCityName(String name);
 }
