@@ -1,13 +1,11 @@
 package com.daniel.doctorappbackend.doctor;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/lekarz")
 public class DoctorController {
@@ -19,6 +17,7 @@ public class DoctorController {
 
     @GetMapping("/wszyscy")
     public List<Doctor> getAllDoctors() {
+        System.out.println("jestem w backendzie!");
         return doctorDao.findAll();
     }
 
@@ -39,5 +38,10 @@ public class DoctorController {
     @GetMapping("/miasto/{cityId}")
     public List<Doctor> getDoctorsByCityId(@PathVariable Long cityId){
         return doctorDao.findAllByCityId(cityId);
+    }
+
+    @PostMapping("/dodaj")
+    public Doctor addDoctor(@RequestBody Doctor doctor){
+        return doctorDao.save(doctor);
     }
 }

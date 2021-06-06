@@ -8,6 +8,7 @@ import java.util.Optional;
 
 // dodanie (postMapping) nowego miasta /miasta/dodaj/{NazwaMiasta}
 
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/miasta")  // localhost:8080/miasta
 public class CityController {
@@ -22,6 +23,7 @@ public class CityController {
 
     @GetMapping("/wszystkie") // localhost:8080/miasta/wszystkie
     public List<City> getAllCities() {
+        System.out.println("jestem w cities");
         return cityDao.findAll();
     }
 
