@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/lekarz")
 public class DoctorController {
@@ -30,9 +30,10 @@ public class DoctorController {
     public List<Doctor> getDoctorsBySpecializationId(@PathVariable Long specializationId){
         return doctorDao.findAllBySpecializationId(specializationId);
     }
-    @GetMapping("/user/{userId}")
-    public Optional<Doctor> getDoctorByUserId(@PathVariable Long userId){
-        return doctorDao.findByUserId(userId);
+
+    @GetMapping("/email/{emailAddress}")
+    public Optional<Doctor> getDoctorByEmailAddress(@PathVariable String emailAddress){
+        return doctorDao.findByDoctorEmailAddress(emailAddress);
     }
 
     @GetMapping("/miasto/{cityId}")
@@ -42,6 +43,7 @@ public class DoctorController {
 
     @PostMapping("/dodaj")
     public Doctor addDoctor(@RequestBody Doctor doctor){
+        System.out.println(doctor);
         return doctorDao.save(doctor);
     }
 }

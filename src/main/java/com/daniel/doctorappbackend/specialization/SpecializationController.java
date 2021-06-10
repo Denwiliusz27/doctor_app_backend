@@ -24,5 +24,10 @@ public class SpecializationController {
     public Optional<Specialization> getSpecializationById(@PathVariable Long specializationId){
         return specializationDao.findById(specializationId);
     }
+
+    @GetMapping("/nazwa/{specializationName}")
+    public Optional<Specialization> getSpecializationBySpecializationName(@PathVariable String specializationName){
+        return specializationDao.findBySpecializationName(specializationName);
+    }
 }
 

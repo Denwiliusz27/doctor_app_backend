@@ -20,6 +20,12 @@ public class Doctor {
     @Column(name = "nazwisko")
     private String doctorSurname;
 
+    @Column(name = "email")
+    private String doctorEmailAddress;
+
+    @Column(name = "haslo")
+    private String doctorPassword;
+
     @Column(name = "id_specjalizacji")
     private Long specializationId;
 
@@ -38,45 +44,48 @@ public class Doctor {
     @Column(name = "zdjecie")
     private SerialBlob doctorPicture;  // ???
 
-    @Column(name = "id_uzytkownika")
-    private Long userId;
 
     public Doctor() {
         doctorId = 0L;
         doctorName = "";
         doctorSurname = "";
+        doctorEmailAddress = "";
+        doctorPassword = "";
         specializationId = 0L;
         cityId = 0L;
         doctorAddress = "";
         phoneNr = "";
         description = "";
         doctorPicture = null;
-        userId = 0L;
     }
 
-    public Doctor(long doctorId, String name, String surname, long specializationId, long cityId, String address, String phoneNr, String description, SerialBlob picture, long userId) {
+    public Doctor(long doctorId, String name, String surname, String email, String password, long specializationId,
+                  long cityId, String address, String phoneNr, String description, SerialBlob picture) {
         this.doctorId = doctorId;
         this.doctorName = name;
         this.doctorSurname = surname;
+        this.doctorEmailAddress = email;
+        this.doctorPassword = password;
         this.specializationId = specializationId;
         this.cityId = cityId;
         this.doctorAddress = address;
         this.phoneNr = phoneNr;
         this.description = description;
         this.doctorPicture = picture;
-        this.userId = userId;
     }
 
-    public Doctor(String name, String surname, long specializationId, long cityId, String address, String phoneNr, String description, SerialBlob picture, long userId) {
+    public Doctor(String name, String surname, String email, String password, long specializationId, long cityId,
+                  String address, String phoneNr, String description, SerialBlob picture) {
         this.doctorName = name;
         this.doctorSurname = surname;
+        this.doctorEmailAddress = email;
+        this.doctorPassword = password;
         this.specializationId = specializationId;
         this.cityId = cityId;
         this.doctorAddress = address;
         this.phoneNr = phoneNr;
         this.description = description;
         this.doctorPicture = picture;
-        this.userId = userId;
     }
 
 
@@ -100,8 +109,24 @@ public class Doctor {
         return doctorSurname;
     }
 
+    public String getDoctorEmailAddress(){
+        return doctorEmailAddress;
+    }
+
+    public String getDoctorPassword() {
+        return doctorPassword;
+    }
+
     public void setDoctorSurname(String surname) {
         this.doctorSurname = surname;
+    }
+
+    public void setDoctorEmailAddress(String emailAddress) {
+        this.doctorEmailAddress = emailAddress;
+    }
+
+    public void setDoctorPassword(String password){
+        this.doctorPassword = password;
     }
 
     public long getSpecializationId() {
@@ -152,25 +177,18 @@ public class Doctor {
         this.doctorPicture = picture;
     }
 
-    public long getUserId(){
-        return userId;
-    }
-
-    public void setUserId(long userId){
-        this.userId = userId;
-    }
-
     @Override
     public String toString() {
         return  "doctorId=" + doctorId +
                 ", name='" + doctorName + '\'' +
                 ", surname='" + doctorSurname + '\'' +
+                ", emailAddress='" + doctorEmailAddress + '\'' +
+                ", password='" + doctorPassword + '\'' +
                 ", specializationId=" + specializationId +
                 ", cityId=" + cityId +
                 ", address='" + doctorAddress + '\'' +
                 ", phoneNr='" + phoneNr + '\'' +
                 ", description='" + description + '\'' +
-                ", picture=" + doctorPicture +
-                ", userId=" + userId;
+                ", picture=" + doctorPicture;
     }
 }

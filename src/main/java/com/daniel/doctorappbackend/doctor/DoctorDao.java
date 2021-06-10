@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface DoctorDao extends CrudRepository<Doctor, Long> {
     List<Doctor> findAll();
 
-    Optional<Doctor> findByUserId(Long userId);
-
     List<Doctor> findAllBySpecializationId(Long specializationId);
 
     List<Doctor> findAllByCityId(Long cityId);
+
+    Optional<Doctor> findByDoctorEmailAddress(String emailAddress);
 }
