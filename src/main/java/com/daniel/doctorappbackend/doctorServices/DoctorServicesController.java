@@ -1,13 +1,11 @@
 package com.daniel.doctorappbackend.doctorServices;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/uslugi-lekarzy")
 public class DoctorServicesController {
@@ -35,5 +33,13 @@ public class DoctorServicesController {
     @GetMapping("/id-lekarza/{doctorId}")
     public List<DoctorServices> getDoctorServiceByDoctorId(@PathVariable Long doctorId){
         return doctorServicesDao.findAllByDoctorId(doctorId);
+    }
+
+    @PostMapping("/dodaj")
+    public List<DoctorServices> addDoctorServices(@RequestBody List<DoctorServices> doctorServices){
+        for (DoctorServices doctorServ : doctorServices){
+            doctorServicesDao.save(doctorServ);
+        }
+        return doctorServices;
     }
 }

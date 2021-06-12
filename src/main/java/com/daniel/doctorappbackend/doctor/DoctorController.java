@@ -33,6 +33,8 @@ public class DoctorController {
 
     @GetMapping("/email/{emailAddress}")
     public Optional<Doctor> getDoctorByEmailAddress(@PathVariable String emailAddress){
+        System.out.println(emailAddress);
+        System.out.println(doctorDao.findByDoctorEmailAddress(emailAddress));
         return doctorDao.findByDoctorEmailAddress(emailAddress);
     }
 
@@ -43,7 +45,15 @@ public class DoctorController {
 
     @PostMapping("/dodaj")
     public Doctor addDoctor(@RequestBody Doctor doctor){
+        System.out.println("dostałem doktora");
         System.out.println(doctor);
-        return doctorDao.save(doctor);
+
+        if (this.getDoctorByEmailAddress(doctor.getDoctorEmailAddress()).isPresent()){
+            System.out.println("jest już taki doktor");
+            return null;
+        } else {
+            System.out.println("nie ma takiego doktora");
+            return doctorDao.save(doctor);
+        }
     }
 }
