@@ -19,27 +19,41 @@ public class Patient {
     @Column(name = "nazwisko")
     private String patientSurname;
 
-    @Column(name = "id_uzytkownika")
-    private Long userId;
+    @Column(name = "pesel")
+    private String patientPesel;
+
+    @Column(name = "email")
+    private String patientEmailAddress;
+
+    @Column(name = "haslo")
+    private String patientPassword;
 
     public Patient() {
         patientId = 0L;
         patientName = "";
         patientSurname = "";
-        userId = 0L;
+        patientPesel = "";
+        patientEmailAddress = "";
+        patientPassword = "";
     }
 
-    public Patient(long patientId, String patientName, String patientSurname, long userId) {
+    public Patient(long patientId, String patientName, String patientSurname, long userId, String patientPesel,
+                   String patientEmailAddress, String patientPassword) {
         this.patientId = patientId;
         this.patientName = patientName;
         this.patientSurname = patientSurname;
-        this.userId = userId;
+        this.patientPesel = patientPesel;
+        this.patientEmailAddress = patientEmailAddress;
+        this.patientPassword = patientPassword;
     }
 
-    public Patient(String patientName, String patientSurname, long userId) {
+    public Patient(String patientName, String patientSurname, long userId, String patientPesel,
+                   String patientEmailAddress, String patientPassword) {
         this.patientName = patientName;
         this.patientSurname = patientSurname;
-        this.userId = userId;
+        this.patientPesel = patientPesel;
+        this.patientEmailAddress = patientEmailAddress;
+        this.patientPassword = patientPassword;
     }
 
     public long getPatientId() {
@@ -66,12 +80,28 @@ public class Patient {
         this.patientSurname = patientSurname;
     }
 
-    public long getUserId() {
-        return userId;
+    public String getPatientPesel() {
+        return patientPesel;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setPatientPesel(String pesel) {
+        this.patientPesel = pesel;
+    }
+
+    public String getPatientEmailAddress() {
+        return patientEmailAddress;
+    }
+
+    public void setPatientEmailAddress(String email) {
+        this.patientEmailAddress = email;
+    }
+
+    public String getPatientPassword() {
+        return patientPassword;
+    }
+
+    public void setPatientPassword(String password) {
+        this.patientPassword = password;
     }
 
     @Override
@@ -79,6 +109,8 @@ public class Patient {
         return  "patientId=" + patientId +
                 ", patientName='" + patientName + '\'' +
                 ", patientSurname='" + patientSurname + '\'' +
-                ", userId=" + userId;
+                ", patientPesel=" + patientPesel + '\'' +
+                ", patientEmailAddress=" + patientEmailAddress + '\'' +
+                ", patientPassword=" + patientPassword;
     }
 }

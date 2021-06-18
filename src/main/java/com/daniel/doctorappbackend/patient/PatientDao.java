@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface PatientDao extends CrudRepository<Patient, Long> {
     List<Patient> findAll();
 
-    Optional<Patient> findByUserId(Long userId);
+    Optional<Patient> findByPatientPesel(String pesel);
+
+    Optional<Patient> findByPatientEmailAddress(String email);
 }

@@ -1,13 +1,12 @@
 package com.daniel.doctorappbackend.patient;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.daniel.doctorappbackend.doctor.Doctor;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/pacjent")
 public class PatientController {
@@ -27,8 +26,20 @@ public class PatientController {
         return patientDao.findById(patientId);
     }
 
-    @GetMapping("userid/{userId}")
-    public Optional<Patient> getPatientByUserId(@PathVariable Long userId){
-        return patientDao.findByUserId(userId);
+    @GetMapping("pesel/{pesel}")
+    public Optional<Patient> getPatientByPatientPesel(@PathVariable String pesel){
+        return patientDao.findByPatientPesel(pesel);
+    }
+
+    @GetMapping("email/{email}")
+    public Optional<Patient> getPatientByPatientEmailAddress(@PathVariable String email){
+        return patientDao.findByPatientEmailAddress(email);
+    }
+
+    @PostMapping("/dodaj")
+    public Patient addPatient(@RequestBody Patient patient){
+        System.out.println("Dostałem pacjenta i dodaje:");
+        System.out.println(patient);
+        return this.patientDao.save(patient);
     }
 }

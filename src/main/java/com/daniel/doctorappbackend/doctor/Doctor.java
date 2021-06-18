@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.sql.rowset.serial.SerialBlob;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Entity
@@ -42,7 +43,7 @@ public class Doctor {
     private String description;
 
     @Column(name = "zdjecie")
-    private SerialBlob doctorPicture;  // ???
+    private transient MultipartFile doctorPicture;  // ???
 
 
     public Doctor() {
@@ -60,7 +61,7 @@ public class Doctor {
     }
 
     public Doctor(long doctorId, String name, String surname, String email, String password, long specializationId,
-                  long cityId, String address, String phoneNr, String description, SerialBlob picture) {
+                  long cityId, String address, String phoneNr, String description, MultipartFile picture) {
         this.doctorId = doctorId;
         this.doctorName = name;
         this.doctorSurname = surname;
@@ -75,7 +76,7 @@ public class Doctor {
     }
 
     public Doctor(String name, String surname, String email, String password, long specializationId, long cityId,
-                  String address, String phoneNr, String description, SerialBlob picture) {
+                  String address, String phoneNr, String description, MultipartFile picture) {
         this.doctorName = name;
         this.doctorSurname = surname;
         this.doctorEmailAddress = email;
@@ -169,11 +170,11 @@ public class Doctor {
         this.description = description;
     }
 
-    public SerialBlob getDoctorPicture() {
+    public MultipartFile getDoctorPicture() {
         return doctorPicture;
     }
 
-    public void setDoctorPicture(SerialBlob picture) {
+    public void setDoctorPicture(MultipartFile picture) {
         this.doctorPicture = picture;
     }
 
