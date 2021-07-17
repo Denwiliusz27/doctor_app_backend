@@ -9,42 +9,42 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/lekarz")
 public class DoctorController {
-    public DoctorDao doctorDao;
+    public DoctorRepository doctorRepository;
 
-    public DoctorController(DoctorDao doctorDao) {
-        this.doctorDao = doctorDao;
+    public DoctorController(DoctorRepository doctorRepository) {
+        this.doctorRepository = doctorRepository;
     }
 
     @GetMapping("/wszyscy")
-    public List<Doctor> getAllDoctors() {
+    public List<DoctorEntity> getAllDoctors() {
         System.out.println("jestem w backendzie!");
-        return doctorDao.findAll();
+        return doctorRepository.findAll();
     }
 
     @GetMapping("id/{doctorId}")
-    public Optional<Doctor> getDoctorById(@PathVariable Long doctorId){
-        return doctorDao.findById(doctorId);
+    public Optional<DoctorEntity> getDoctorById(@PathVariable Long doctorId){
+        return doctorRepository.findById(doctorId);
     }
 
     @GetMapping("/specjalizacja/{specializationId}")
-    public List<Doctor> getDoctorsBySpecializationId(@PathVariable Long specializationId){
-        return doctorDao.findAllBySpecializationId(specializationId);
+    public List<DoctorEntity> getDoctorsBySpecializationId(@PathVariable Long specializationId){
+        return doctorRepository.findAllBySpecializationId(specializationId);
     }
 
     @GetMapping("/email/{emailAddress}")
-    public Optional<Doctor> getDoctorByEmailAddress(@PathVariable String emailAddress){
+    public Optional<DoctorEntity> getDoctorByEmailAddress(@PathVariable String emailAddress){
         System.out.println(emailAddress);
-        System.out.println(doctorDao.findByDoctorEmailAddress(emailAddress));
-        return doctorDao.findByDoctorEmailAddress(emailAddress);
+        System.out.println(doctorRepository.findByDoctorEmailAddress(emailAddress));
+        return doctorRepository.findByDoctorEmailAddress(emailAddress);
     }
 
     @GetMapping("/miasto/{cityId}")
-    public List<Doctor> getDoctorsByCityId(@PathVariable Long cityId){
-        return doctorDao.findAllByCityId(cityId);
+    public List<DoctorEntity> getDoctorsByCityId(@PathVariable Long cityId){
+        return doctorRepository.findAllByCityId(cityId);
     }
 
     @PostMapping("/dodaj")
-    public Doctor addDoctor(@RequestBody Doctor doctor){
+    public DoctorEntity addDoctor(@RequestBody DoctorEntity doctor){
         System.out.println("dostałem doktora");
         System.out.println(doctor);
 
@@ -53,7 +53,7 @@ public class DoctorController {
             return null;
         } else {
             System.out.println("nie ma takiego doktora");
-            return doctorDao.save(doctor);
+            return doctorRepository.save(doctor);
         }
     }
 }

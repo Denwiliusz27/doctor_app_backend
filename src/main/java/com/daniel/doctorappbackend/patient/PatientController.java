@@ -1,6 +1,5 @@
 package com.daniel.doctorappbackend.patient;
 
-import com.daniel.doctorappbackend.doctor.Doctor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,36 +9,36 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/pacjent")
 public class PatientController {
-    public PatientDao patientDao;
+    public PatientRepository patientRepository;
 
-    public PatientController(PatientDao patientDao) {
-        this.patientDao = patientDao;
+    public PatientController(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
     }
 
     @GetMapping("/wszyscy")
-    public List<Patient> getAllPatients(){
-        return patientDao.findAll();
+    public List<PatientEntity> getAllPatients(){
+        return patientRepository.findAll();
     }
 
     @GetMapping("id/{patientId}")
-    public Optional<Patient> getPatientById(@PathVariable Long patientId){
-        return patientDao.findById(patientId);
+    public Optional<PatientEntity> getPatientById(@PathVariable Long patientId){
+        return patientRepository.findById(patientId);
     }
 
     @GetMapping("pesel/{pesel}")
-    public Optional<Patient> getPatientByPatientPesel(@PathVariable String pesel){
-        return patientDao.findByPatientPesel(pesel);
+    public Optional<PatientEntity> getPatientByPatientPesel(@PathVariable String pesel){
+        return patientRepository.findByPatientPesel(pesel);
     }
 
     @GetMapping("email/{email}")
-    public Optional<Patient> getPatientByPatientEmailAddress(@PathVariable String email){
-        return patientDao.findByPatientEmailAddress(email);
+    public Optional<PatientEntity> getPatientByPatientEmailAddress(@PathVariable String email){
+        return patientRepository.findByPatientEmailAddress(email);
     }
 
     @PostMapping("/dodaj")
-    public Patient addPatient(@RequestBody Patient patient){
+    public PatientEntity addPatient(@RequestBody PatientEntity patientEntity){
         System.out.println("Dostałem pacjenta i dodaje:");
-        System.out.println(patient);
-        return this.patientDao.save(patient);
+        System.out.println(patientEntity);
+        return this.patientRepository.save(patientEntity);
     }
 }

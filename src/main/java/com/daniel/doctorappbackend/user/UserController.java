@@ -1,29 +1,38 @@
 package com.daniel.doctorappbackend.user;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.daniel.doctorappbackend.user.exception.UserExistException;
+import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
+import com.daniel.doctorappbackend.user.model.UserEntity;
+import com.daniel.doctorappbackend.user.model.UserRole;
+import com.daniel.doctorappbackend.user.model.dto.CreatePatientRequest;
+import com.daniel.doctorappbackend.user.model.dto.LoginUserRequest;
+import com.daniel.doctorappbackend.user.model.dto.UserResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/uzytkownicy")
+@RequestMapping("/auth")
+@RequiredArgsConstructor // tworzy konstruktor z polami private
 public class UserController {
-    public UserDao userDao;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserDao userDao) {
-        this.userDao = userDao;
+    @PostMapping("/login")
+    public UserResponse login(@RequestBody LoginUserRequest loginUserRequest) throws UserNotFoundException {
+        return this.userService.findUser(loginUserRequest.getEmail(), loginUserRequest.getPassword());
     }
 
-    @GetMapping("/wszyscy")
-    public List<User> getAllUsers(){
-        return userDao.findAll();
+    @PostMapping("/create/patient")
+    public UserResponse createPatient(@RequestBody CreatePatientRequest createPatientRequest) throws UserExistException {
+        return this.userService.createUser(createPatientRequest, UserRole.PATIENT);
     }
 
     @GetMapping("id/{userId}")
-    public Optional<User> getUserById(@PathVariable long userId){
-        return userDao.findById(userId);
+    public Optional<UserEntity> getUserById(@PathVariable long userId){
+        return userRepository.findById(userId);
     }
+
+
 }
