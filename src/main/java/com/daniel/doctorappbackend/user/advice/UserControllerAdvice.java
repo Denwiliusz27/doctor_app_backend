@@ -14,4 +14,10 @@ public class UserControllerAdvice {
     public String handleUserNotFound(UserNotFoundException userNotFoundException){
         return userNotFoundException.getMessage();
     }
+
+    /*
+    @ResponseStatus(value = HttpStatus.FOUND)
+    public String handleUserExist(UserExistException userExistException){
+        return userExistException.getMessage();
+    }*/
 }

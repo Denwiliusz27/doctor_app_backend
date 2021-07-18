@@ -4,10 +4,8 @@ import com.daniel.doctorappbackend.user.model.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.*;
-
 import lombok.NoArgsConstructor;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -19,11 +17,8 @@ public class DoctorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String address;
-
     private String phoneNumber;
-
     private String description;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -25,7 +25,7 @@ public class DoctorController {
     public Optional<DoctorEntity> getDoctorById(@PathVariable Long doctorId){
         return doctorRepository.findById(doctorId);
     }
-
+ /*
     @GetMapping("/specjalizacja/{specializationId}")
     public List<DoctorEntity> getDoctorsBySpecializationId(@PathVariable Long specializationId){
         return doctorRepository.findAllBySpecializationId(specializationId);
@@ -43,7 +43,7 @@ public class DoctorController {
         return doctorRepository.findAllByCityId(cityId);
     }
 
-    @PostMapping("/dodaj")
+   @PostMapping("/dodaj")
     public DoctorEntity addDoctor(@RequestBody DoctorEntity doctor){
         System.out.println("dostałem doktora");
         System.out.println(doctor);
@@ -55,5 +55,5 @@ public class DoctorController {
             System.out.println("nie ma takiego doktora");
             return doctorRepository.save(doctor);
         }
-    }
+    }*/
 }

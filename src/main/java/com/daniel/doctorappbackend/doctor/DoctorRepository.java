@@ -10,11 +10,11 @@ import java.util.Optional;
 public interface DoctorRepository extends JpaRepository<DoctorEntity, Long> {
     List<DoctorEntity> findAll();
 
-    List<DoctorEntity> findAllBySpecializationId(Long specializationId);
+    /*List<DoctorEntity> findAllBySpecializationId(Long specializationId);
 
     List<DoctorEntity> findAllByCityId(Long cityId);
 
-    Optional<DoctorEntity> findByDoctorEmailAddress(String emailAddress);
+    Optional<DoctorEntity> findByDoctorEmailAddress(String emailAddress);*/
 
-    Optional<DoctorEntity> findByUserMailAndUserPassword(String email, String password);
+    Optional<DoctorEntity> findByUserEmailAndUserPassword(String email, String password);
 }

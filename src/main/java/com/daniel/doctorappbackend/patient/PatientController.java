@@ -25,7 +25,7 @@ public class PatientController {
         return patientRepository.findById(patientId);
     }
 
-    @GetMapping("pesel/{pesel}")
+   /* @GetMapping("pesel/{pesel}")
     public Optional<PatientEntity> getPatientByPatientPesel(@PathVariable String pesel){
         return patientRepository.findByPatientPesel(pesel);
     }
@@ -33,7 +33,7 @@ public class PatientController {
     @GetMapping("email/{email}")
     public Optional<PatientEntity> getPatientByPatientEmailAddress(@PathVariable String email){
         return patientRepository.findByPatientEmailAddress(email);
-    }
+    }*/
 
     @PostMapping("/dodaj")
     public PatientEntity addPatient(@RequestBody PatientEntity patientEntity){

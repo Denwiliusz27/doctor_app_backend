@@ -10,8 +10,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 public class DoctorResponse extends UserResponse {
     private String address;
-
     private String phoneNumber;
-
     private String description;
 }

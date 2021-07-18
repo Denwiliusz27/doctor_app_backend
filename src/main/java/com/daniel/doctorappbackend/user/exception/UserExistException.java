@@ -2,6 +2,6 @@ package com.daniel.doctorappbackend.user.exception;
 
 public class UserExistException extends Exception{
     public UserExistException() {
-        super("User exist");
+        super("user exist");
     }
 }

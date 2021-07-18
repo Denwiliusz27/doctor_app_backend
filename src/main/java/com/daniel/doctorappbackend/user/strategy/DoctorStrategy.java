@@ -2,7 +2,6 @@ package com.daniel.doctorappbackend.user.strategy;
 
 import com.daniel.doctorappbackend.doctor.DoctorEntity;
 import com.daniel.doctorappbackend.doctor.DoctorRepository;
-import com.daniel.doctorappbackend.patient.PatientEntity;
 import com.daniel.doctorappbackend.user.UserRepository;
 import com.daniel.doctorappbackend.user.exception.UserExistException;
 import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
@@ -10,11 +9,8 @@ import com.daniel.doctorappbackend.user.model.UserEntity;
 import com.daniel.doctorappbackend.user.model.dto.CreateDoctorRequest;
 import com.daniel.doctorappbackend.user.model.dto.CreateUserRequest;
 import com.daniel.doctorappbackend.user.model.dto.DoctorResponse;
-import com.daniel.doctorappbackend.user.model.dto.PatientResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import javax.print.Doc;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +20,7 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
 
     @Override
     public DoctorResponse buildUser(String email, String password) throws UserNotFoundException {
-        return this.doctorRepository.findByUserMailAndUserPassword(email, password)
+        return this.doctorRepository.findByUserEmailAndUserPassword(email, password)
                 .map(this::mapToDoctorResponse)
                 .orElseThrow(UserNotFoundException::new);
     }
