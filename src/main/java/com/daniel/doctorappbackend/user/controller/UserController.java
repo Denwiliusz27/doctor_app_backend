@@ -1,5 +1,9 @@
-package com.daniel.doctorappbackend.user;
+package com.daniel.doctorappbackend.user.controller;
 
+import com.daniel.doctorappbackend.city.exception.CityNotFoundException;
+import com.daniel.doctorappbackend.specialization.exception.SpecializationNotFoundException;
+import com.daniel.doctorappbackend.user.repository.UserRepository;
+import com.daniel.doctorappbackend.user.service.UserService;
 import com.daniel.doctorappbackend.user.exception.UserExistException;
 import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
 import com.daniel.doctorappbackend.user.model.UserEntity;
@@ -26,12 +30,12 @@ public class UserController {
     }
 
     @PostMapping("/create/patient")
-    public UserResponse createPatient(@RequestBody CreatePatientRequest createPatientRequest) throws UserExistException {
+    public UserResponse createPatient(@RequestBody CreatePatientRequest createPatientRequest) throws UserExistException, SpecializationNotFoundException, CityNotFoundException {
         return this.userService.createUser(createPatientRequest, UserRole.PATIENT);
     }
 
     @PostMapping("/create/doctor")
-    public UserResponse createDoctor(@RequestBody CreateDoctorRequest createDoctorRequest) throws UserExistException {
+    public UserResponse createDoctor(@RequestBody CreateDoctorRequest createDoctorRequest) throws UserExistException, SpecializationNotFoundException, CityNotFoundException {
         return this.userService.createUser(createDoctorRequest, UserRole.DOCTOR);
     }
 

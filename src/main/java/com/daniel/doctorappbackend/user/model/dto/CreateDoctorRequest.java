@@ -9,4 +9,6 @@ public class CreateDoctorRequest extends CreateUserRequest{
     private String description;
     private String phoneNumber;
     private String address;
+    private Long specializationId;
+    private Long cityId;
 }

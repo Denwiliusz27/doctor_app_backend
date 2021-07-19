@@ -25,18 +25,20 @@ public class DoctorController {
     public Optional<DoctorEntity> getDoctorById(@PathVariable Long doctorId){
         return doctorRepository.findById(doctorId);
     }
+
+    @GetMapping("/email/{emailAddress}")
+    public Optional<DoctorEntity> getDoctorByEmailAddress(@PathVariable String emailAddress){
+        System.out.println(emailAddress);
+        System.out.println(doctorRepository.findByUserEmail(emailAddress));
+        return doctorRepository.findByUserEmail(emailAddress);
+    }
  /*
     @GetMapping("/specjalizacja/{specializationId}")
     public List<DoctorEntity> getDoctorsBySpecializationId(@PathVariable Long specializationId){
         return doctorRepository.findAllBySpecializationId(specializationId);
     }
 
-    @GetMapping("/email/{emailAddress}")
-    public Optional<DoctorEntity> getDoctorByEmailAddress(@PathVariable String emailAddress){
-        System.out.println(emailAddress);
-        System.out.println(doctorRepository.findByDoctorEmailAddress(emailAddress));
-        return doctorRepository.findByDoctorEmailAddress(emailAddress);
-    }
+
 
     @GetMapping("/miasto/{cityId}")
     public List<DoctorEntity> getDoctorsByCityId(@PathVariable Long cityId){

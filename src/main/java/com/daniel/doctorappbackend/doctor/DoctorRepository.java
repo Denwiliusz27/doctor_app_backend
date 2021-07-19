@@ -9,12 +9,12 @@ import java.util.Optional;
 @Repository
 public interface DoctorRepository extends JpaRepository<DoctorEntity, Long> {
     List<DoctorEntity> findAll();
+    Optional<DoctorEntity> findByUserEmailAndUserPassword(String email, String password);
+    Optional<DoctorEntity> findByUserEmail(String email);
 
     /*List<DoctorEntity> findAllBySpecializationId(Long specializationId);
 
     List<DoctorEntity> findAllByCityId(Long cityId);
 
     Optional<DoctorEntity> findByDoctorEmailAddress(String emailAddress);*/
-
-    Optional<DoctorEntity> findByUserEmailAndUserPassword(String email, String password);
 }

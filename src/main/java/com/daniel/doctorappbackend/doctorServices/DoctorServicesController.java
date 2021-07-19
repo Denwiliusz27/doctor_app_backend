@@ -9,36 +9,36 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/uslugi-lekarzy")
 public class DoctorServicesController {
-    public DoctorServicesDao doctorServicesDao;
+    public DoctorServicesRepository doctorServicesRepository;
 
-    public DoctorServicesController(DoctorServicesDao doctorServicesDao) {
-        this.doctorServicesDao = doctorServicesDao;
+    public DoctorServicesController(DoctorServicesRepository doctorServicesRepository) {
+        this.doctorServicesRepository = doctorServicesRepository;
     }
 
     @GetMapping("/wszystkie")
-    public List<DoctorServices> getAllDoctorServices(){
-        return doctorServicesDao.findAll();
+    public List<DoctorServiceEntity> getAllDoctorServices(){
+        return doctorServicesRepository.findAll();
     }
 
     @GetMapping("/id/{id}")
-    public Optional<DoctorServices> getDoctorServiceById(@PathVariable Long id){
-        return doctorServicesDao.findById(id);
+    public Optional<DoctorServiceEntity> getDoctorServiceById(@PathVariable Long id){
+        return doctorServicesRepository.findById(id);
     }
 
     @GetMapping("/id-uslugi/{serviceId}")
-    public Optional<DoctorServices> getDoctorServiceByServiceId(@PathVariable Long serviceId){
-        return doctorServicesDao.findAllByServiceId(serviceId);
+    public Optional<DoctorServiceEntity> getDoctorServiceByServiceId(@PathVariable Long serviceId){
+        return doctorServicesRepository.findAllByServiceId(serviceId);
     }
 
     @GetMapping("/id-lekarza/{doctorId}")
-    public List<DoctorServices> getDoctorServiceByDoctorId(@PathVariable Long doctorId){
-        return doctorServicesDao.findAllByDoctorId(doctorId);
+    public List<DoctorServiceEntity> getDoctorServiceByDoctorId(@PathVariable Long doctorId){
+        return doctorServicesRepository.findAllByDoctorId(doctorId);
     }
 
     @PostMapping("/dodaj")
-    public List<DoctorServices> addDoctorServices(@RequestBody List<DoctorServices> doctorServices){
-        for (DoctorServices doctorServ : doctorServices){
-            doctorServicesDao.save(doctorServ);
+    public List<DoctorServiceEntity> addDoctorServices(@RequestBody List<DoctorServiceEntity> doctorServices){
+        for (DoctorServiceEntity doctorServ : doctorServices){
+            doctorServicesRepository.save(doctorServ);
         }
         return doctorServices;
     }

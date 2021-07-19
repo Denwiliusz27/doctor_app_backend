@@ -9,25 +9,25 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/uslugi")
 public class ServiceController {
-    public ServiceDao serviceDao;
+    public ServiceRepository serviceRepository;
 
-    public ServiceController(ServiceDao serviceDao) {
-        this.serviceDao = serviceDao;
+    public ServiceController(ServiceRepository serviceRepository) {
+        this.serviceRepository = serviceRepository;
     }
 
     @GetMapping("/wszystkie")
-    public List<Service> getAllServices(){
-        return serviceDao.findAll();
+    public List<ServiceEntity> getAllServices(){
+        return serviceRepository.findAll();
     }
 
     @GetMapping("/id/{serviceId}")
-    public Optional<Service> getSetviceById(@PathVariable Long serviceId){
-        return serviceDao.findById(serviceId);
+    public Optional<ServiceEntity> getSetviceById(@PathVariable Long serviceId){
+        return serviceRepository.findById(serviceId);
     }
 
     @GetMapping("/specjalizacja/{specializationId}")
-    public List<Service> getServicesBySpecializationId(@PathVariable Long specializationId){
-        return serviceDao.findAllBySpecializationId(specializationId);
+    public List<ServiceEntity> getServicesBySpecializationId(@PathVariable Long specializationId){
+        return serviceRepository.findAllBySpecializationId(specializationId);
     }
 
 }

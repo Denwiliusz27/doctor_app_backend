@@ -1,5 +1,7 @@
 package com.daniel.doctorappbackend.user.model.dto;
 
+import com.daniel.doctorappbackend.city.model.dto.CityResponse;
+import com.daniel.doctorappbackend.specialization.model.dto.SpecializationResponse;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,4 +14,6 @@ public class DoctorResponse extends UserResponse {
     private String address;
     private String phoneNumber;
     private String description;
+    private SpecializationResponse specialization;
+    private CityResponse city;
 }

@@ -2,10 +2,11 @@ package com.daniel.doctorappbackend.user.strategy;
 
 import com.daniel.doctorappbackend.patient.PatientEntity;
 import com.daniel.doctorappbackend.patient.PatientRepository;
-import com.daniel.doctorappbackend.user.UserRepository;
+import com.daniel.doctorappbackend.user.repository.UserRepository;
 import com.daniel.doctorappbackend.user.exception.UserExistException;
 import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
 import com.daniel.doctorappbackend.user.model.UserEntity;
+import com.daniel.doctorappbackend.user.model.UserRole;
 import com.daniel.doctorappbackend.user.model.dto.CreatePatientRequest;
 import com.daniel.doctorappbackend.user.model.dto.CreateUserRequest;
 import com.daniel.doctorappbackend.user.model.dto.PatientResponse;
@@ -15,8 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PatientStrategy implements UserStrategy<PatientResponse>{
-    private PatientRepository patientRepository;
-    private UserRepository userRepository;
+    private final PatientRepository patientRepository;
+    private final UserRepository userRepository;
 
     @Override
     public PatientResponse buildUser(String email, String password) throws UserNotFoundException {
@@ -28,7 +29,7 @@ public class PatientStrategy implements UserStrategy<PatientResponse>{
     @Override
     public <U extends CreateUserRequest> PatientResponse createUser(U createUserRequest) throws UserExistException {
         CreatePatientRequest request = (CreatePatientRequest) createUserRequest;
-        boolean exist = this.userRepository.existByEmail(createUserRequest.getEmail());
+        boolean exist = this.userRepository.existsUserEntityByEmail(createUserRequest.getEmail());
 
         if(exist){
             throw new UserExistException();
@@ -39,7 +40,8 @@ public class PatientStrategy implements UserStrategy<PatientResponse>{
                 .surname(createUserRequest.getSurname())
                 .password(createUserRequest.getPassword())
                 .email(createUserRequest.getEmail())
-                .build()
+                        .role(UserRole.PATIENT)
+                        .build()
         );
         PatientEntity patientEntity = this.patientRepository.save(
                 PatientEntity.builder()
@@ -58,6 +60,7 @@ public class PatientStrategy implements UserStrategy<PatientResponse>{
                 .userId(patientEntity.getUser().getId())
                 .id(patientEntity.getId())
                 .pesel(patientEntity.getPesel())
+                .userRole(patientEntity.getUser().getRole())
                 .build();
     }
 }

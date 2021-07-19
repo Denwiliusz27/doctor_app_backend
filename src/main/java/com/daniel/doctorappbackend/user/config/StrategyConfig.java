@@ -16,8 +16,8 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 public class StrategyConfig {
-    private DoctorStrategy doctorStrategy;
-    private PatientStrategy patientStrategy;
+    private final DoctorStrategy doctorStrategy;
+    private final PatientStrategy patientStrategy;
 
     @Bean
     public Map<UserRole, UserStrategy<? extends UserResponse>> createConfig(){

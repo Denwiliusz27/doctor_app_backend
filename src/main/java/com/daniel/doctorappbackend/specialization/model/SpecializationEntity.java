@@ -1,25 +1,21 @@
-package com.daniel.doctorappbackend.patient;
+package com.daniel.doctorappbackend.specialization.model;
 
-import com.daniel.doctorappbackend.user.model.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "patients")
+@Table(name = "specializations")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PatientEntity {
+public class SpecializationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String pesel;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private String name;
 }

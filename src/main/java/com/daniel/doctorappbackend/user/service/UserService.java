@@ -1,11 +1,14 @@
-package com.daniel.doctorappbackend.user;
+package com.daniel.doctorappbackend.user.service;
 
+import com.daniel.doctorappbackend.city.exception.CityNotFoundException;
+import com.daniel.doctorappbackend.specialization.exception.SpecializationNotFoundException;
 import com.daniel.doctorappbackend.user.exception.UserExistException;
 import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
 import com.daniel.doctorappbackend.user.model.UserEntity;
 import com.daniel.doctorappbackend.user.model.UserRole;
 import com.daniel.doctorappbackend.user.model.dto.CreateUserRequest;
 import com.daniel.doctorappbackend.user.model.dto.UserResponse;
+import com.daniel.doctorappbackend.user.repository.UserRepository;
 import com.daniel.doctorappbackend.user.strategy.UserStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +26,7 @@ public class UserService {
         return this.userStrategyMap.get(userEntity.getRole()).buildUser(email, password);
     }
 
-    public <T extends CreateUserRequest> UserResponse createUser(T createUserRequest, UserRole role) throws UserExistException {
+    public <T extends CreateUserRequest> UserResponse createUser(T createUserRequest, UserRole role) throws UserExistException, SpecializationNotFoundException, CityNotFoundException {
          return this.userStrategyMap.get(role).createUser(createUserRequest);
     }
 }

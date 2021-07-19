@@ -1,5 +1,7 @@
 package com.daniel.doctorappbackend.doctor;
 
+import com.daniel.doctorappbackend.city.model.CityEntity;
+import com.daniel.doctorappbackend.specialization.model.SpecializationEntity;
 import com.daniel.doctorappbackend.user.model.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +17,7 @@ import javax.persistence.*;
 @Builder
 public class DoctorEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String address;
     private String phoneNumber;
@@ -24,4 +26,12 @@ public class DoctorEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "specialization_id")
+    private SpecializationEntity specialization;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id")
+    private CityEntity city;
 }
