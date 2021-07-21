@@ -6,10 +6,17 @@ import com.daniel.doctorappbackend.city.model.dto.CityResponse;
 import com.daniel.doctorappbackend.city.service.CityService;
 import com.daniel.doctorappbackend.doctor.DoctorEntity;
 import com.daniel.doctorappbackend.doctor.DoctorRepository;
+import com.daniel.doctorappbackend.doctorServices.model.DoctorServiceEntity;
+import com.daniel.doctorappbackend.doctorServices.model.dto.DoctorServiceResponse;
+import com.daniel.doctorappbackend.doctorServices.service.DoctorService;
+import com.daniel.doctorappbackend.medicalservice.exception.MedicalServiceNotFoundException;
+import com.daniel.doctorappbackend.medicalservice.model.dto.MedicalServiceResponse;
+import com.daniel.doctorappbackend.medicalservice.service.MedicalService;
 import com.daniel.doctorappbackend.specialization.exception.SpecializationNotFoundException;
 import com.daniel.doctorappbackend.specialization.model.SpecializationEntity;
 import com.daniel.doctorappbackend.specialization.model.dto.SpecializationResponse;
 import com.daniel.doctorappbackend.specialization.service.SpecializationService;
+import com.daniel.doctorappbackend.user.model.dto.MedicalServiceDoctorRequest;
 import com.daniel.doctorappbackend.user.repository.UserRepository;
 import com.daniel.doctorappbackend.user.exception.UserExistException;
 import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
@@ -21,6 +28,9 @@ import com.daniel.doctorappbackend.user.model.dto.DoctorResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class DoctorStrategy implements UserStrategy<DoctorResponse>{
@@ -28,16 +38,20 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
     private final UserRepository userRepository;
     private final SpecializationService specializationService;
     private final CityService cityService;
+    private final DoctorService doctorService;
+    private final MedicalService medicalService;
 
     @Override
     public DoctorResponse buildUser(String email, String password) throws UserNotFoundException {
         return this.doctorRepository.findByUserEmailAndUserPassword(email, password)
-                .map(this::mapToDoctorResponse)
+                .map(doctorEntity ->
+                    this.mapToDoctorResponse(doctorEntity, this.doctorService.findByDoctorId(doctorEntity.getId()))
+                )
                 .orElseThrow(UserNotFoundException::new);
     }
 
     @Override
-    public <U extends CreateUserRequest> DoctorResponse createUser(U createUserRequest) throws UserExistException, SpecializationNotFoundException, CityNotFoundException {
+    public <U extends CreateUserRequest> DoctorResponse createUser(U createUserRequest) throws UserExistException, SpecializationNotFoundException, CityNotFoundException, MedicalServiceNotFoundException {
         CreateDoctorRequest request = (CreateDoctorRequest) createUserRequest;
         boolean exist = this.userRepository.existsUserEntityByEmail(createUserRequest.getEmail());
 
@@ -50,6 +64,7 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
 
         CityEntity cityEntity = this.cityService.findById(request.getCityId())
                 .orElseThrow(() -> new CityNotFoundException(request.getCityId()));
+
         UserEntity userEntity = this.userRepository.save(
                 UserEntity.builder()
                         .name(createUserRequest.getName())
@@ -70,10 +85,35 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
                         .city(cityEntity)
                         .build()
         );
-        return this.mapToDoctorResponse(doctorEntity);
+
+        List<DoctorServiceEntity> doctorServices = request.getMedicalServices()
+                .stream()
+                .map(medicalServiceDoctorRequest ->
+                    this.medicalService.findById(medicalServiceDoctorRequest.getId())
+                            .map(medicalServiceEntity -> this.doctorService.add(
+                                    DoctorServiceEntity.builder()
+                                            .doctor(doctorEntity)
+                                            .price(medicalServiceDoctorRequest.getPrice())
+                                            .service(medicalServiceEntity)
+                                            .build()
+                            )).orElseGet(null)
+                ).collect(Collectors.toList());
+
+        for(MedicalServiceDoctorRequest medicalServiceDoctorRequest : request.getMedicalServices()){
+            this.medicalService.findById(medicalServiceDoctorRequest.getId())
+                    .map(medicalServiceEntity -> this.doctorService.add(
+                            DoctorServiceEntity.builder()
+                                    .doctor(doctorEntity)
+                                    .price(medicalServiceDoctorRequest.getPrice())
+                                    .service(medicalServiceEntity)
+                                    .build()
+                    )).orElseThrow(() -> new MedicalServiceNotFoundException(medicalServiceDoctorRequest.getId()));
+        }
+
+        return this.mapToDoctorResponse(doctorEntity, doctorServices);
     }
 
-    private DoctorResponse mapToDoctorResponse(DoctorEntity doctorEntity) {
+    private DoctorResponse mapToDoctorResponse(DoctorEntity doctorEntity, List<DoctorServiceEntity> doctorServiceEntities) {
         return DoctorResponse.builder()
                 .name(doctorEntity.getUser().getName())
                 .surname(doctorEntity.getUser().getSurname())
@@ -95,6 +135,23 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
                                 .id(doctorEntity.getCity().getId())
                                 .name(doctorEntity.getCity().getName())
                                 .build()
+                )
+                .doctorServices(
+                        doctorServiceEntities.stream()
+                        .map(
+                                doctorServiceEntity -> DoctorServiceResponse.builder()
+                                .id(doctorServiceEntity.getId())
+                                        .doctorId(doctorEntity.getId())
+                                .medicalService(
+                                        MedicalServiceResponse.builder()
+                                        .id(doctorServiceEntity.getService().getId())
+                                        .name(doctorServiceEntity.getService().getName())
+                                        .length(doctorServiceEntity.getService().getLengthOfVisit())
+                                        .build()
+                                        )
+                                .price(doctorServiceEntity.getPrice())
+                                .build()
+                                ).collect(Collectors.toList())
                 )
                 .build();
     }
