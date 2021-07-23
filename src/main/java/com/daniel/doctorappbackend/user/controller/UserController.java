@@ -14,10 +14,12 @@ import com.daniel.doctorappbackend.user.model.dto.CreatePatientRequest;
 import com.daniel.doctorappbackend.user.model.dto.LoginUserRequest;
 import com.daniel.doctorappbackend.user.model.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor // tworzy konstruktor z polami private

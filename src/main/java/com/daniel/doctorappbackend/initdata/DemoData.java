@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.sql.Time;
+
 @Component
 @RequiredArgsConstructor
 public class DemoData implements CommandLineRunner {
@@ -33,36 +35,118 @@ public class DemoData implements CommandLineRunner {
                 .name("konsultacja")
                 .specialization(internista)
             .build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("konsultacja stomatologiczna")
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("konsultacja stomatologiczna")
                 .specialization(stomatolog)
                 .build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("leczenie próchnicy").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("usuwanie zęba").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("leczenie kanałowe").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("odbudowa zębów").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("wybielanie zębów").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("usuwanie kamienia").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("konsultacja kardiologiczna").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("EKG").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("echo serca").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("holter").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("konsultacja neurologiczna").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("konsultacja laryngologiczna").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("badanie słuchu").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("płukanie uszu").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("punkcja zatok").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("konsultacja endokrynologiczna").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("USG tarczycy").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("konsultacja ortopedyczna").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("USG aparatu ruchu").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("iniekcja").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("podstawowe badania krwi").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("podstawowe badania moczu i kału").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("badanie poziomu hormonów z krwi").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("rezonans magnetyczny").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("badanie poziomu hormonów z krwi").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("tomografia komputerowa").build());
-        medicalServiceRepository.save(MedicalServiceEntity.builder().name("RTG").build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("leczenie próchnicy")
+                .specialization(stomatolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("usuwanie zęba")
+                .specialization(stomatolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("leczenie kanałowe")
+                .specialization(stomatolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("odbudowa zębów")
+                .specialization(stomatolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("wybielanie zębów")
+                .specialization(stomatolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("usuwanie kamienia")
+                .specialization(stomatolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("konsultacja kardiologiczna")
+                .specialization(kardiolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("EKG")
+                .specialization(kardiolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("echo serca")
+                .specialization(kardiolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("holter")
+                .specialization(kardiolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("konsultacja neurologiczna")
+                .specialization(neurolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("konsultacja laryngologiczna")
+                .specialization(laryngolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("badanie słuchu")
+                .specialization(laryngolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("płukanie uszu")
+                .specialization(laryngolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("punkcja zatok")
+                .specialization(laryngolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("konsultacja endokrynologiczna")
+                .specialization(endokrynolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("USG tarczycy")
+                .specialization(endokrynolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("konsultacja ortopedyczna")
+                .specialization(ortopeda)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("USG aparatu ruchu")
+                .specialization(ortopeda)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("iniekcja")
+                .specialization(ortopeda)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("podstawowe badania krwi")
+                .specialization(pielegniarka)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("podstawowe badania moczu i kału")
+                .specialization(pielegniarka)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("badanie poziomu hormonów z krwi")
+                .specialization(pielegniarka)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("rezonans magnetyczny")
+                .specialization(elektroradiolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("badanie poziomu hormonów z krwi")
+                .specialization(elektroradiolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("tomografia komputerowa")
+                .specialization(elektroradiolog)
+                .build());
+        medicalServiceRepository.save(MedicalServiceEntity.builder()
+                .name("RTG")
+                .specialization(elektroradiolog)
+                .build());
 
         cityRepository.save(CityEntity.builder().name("Kraków").build());
         cityRepository.save(CityEntity.builder().name("Warszawa").build());

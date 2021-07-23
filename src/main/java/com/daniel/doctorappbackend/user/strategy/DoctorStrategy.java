@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,7 +63,7 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
         SpecializationEntity specializationEntity = this.specializationService.findById(request.getSpecializationId())
                 .orElseThrow(() -> new SpecializationNotFoundException(request.getSpecializationId()));
 
-        CityEntity cityEntity = this.cityService.findById(request.getCityId())
+        CityEntity cityEntity = this.cityService.findEntityById(request.getCityId())
                 .orElseThrow(() -> new CityNotFoundException(request.getCityId()));
 
         UserEntity userEntity = this.userRepository.save(
@@ -97,18 +98,9 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
                                             .service(medicalServiceEntity)
                                             .build()
                             )).orElseGet(null)
-                ).collect(Collectors.toList());
-
-        for(MedicalServiceDoctorRequest medicalServiceDoctorRequest : request.getMedicalServices()){
-            this.medicalService.findById(medicalServiceDoctorRequest.getId())
-                    .map(medicalServiceEntity -> this.doctorService.add(
-                            DoctorServiceEntity.builder()
-                                    .doctor(doctorEntity)
-                                    .price(medicalServiceDoctorRequest.getPrice())
-                                    .service(medicalServiceEntity)
-                                    .build()
-                    )).orElseThrow(() -> new MedicalServiceNotFoundException(medicalServiceDoctorRequest.getId()));
-        }
+                )
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
 
         return this.mapToDoctorResponse(doctorEntity, doctorServices);
     }

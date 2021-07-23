@@ -1,6 +1,11 @@
 package com.daniel.doctorappbackend.city.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.daniel.doctorappbackend.city.exception.CityNotFoundException;
+import com.daniel.doctorappbackend.city.model.CityEntity;
+import com.daniel.doctorappbackend.city.repository.CityRepository;
+import com.daniel.doctorappbackend.city.service.CityService;
+import com.daniel.doctorappbackend.user.model.dto.CityResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,9 +15,19 @@ import java.util.Optional;
 
 @CrossOrigin("http://localhost:4200")
 @RestController
-@RequestMapping("/miasta")  // localhost:8080/miasta
+@RequiredArgsConstructor
+@RequestMapping("/cities")  // localhost:8080/miasta
 public class CityController {
+    private CityRepository cityRepository;
+    private CityService cityService;
 
+    @GetMapping("get/{cityId}")
+    public CityResponse getCityById(@PathVariable long cityId) throws CityNotFoundException {
+        return this.cityService.findById(cityId);
+    }
 
-
+    @GetMapping("getAll")
+    public List<CityResponse> getAllCities(){
+        return this.cityService.findAll();
+    }
 }
