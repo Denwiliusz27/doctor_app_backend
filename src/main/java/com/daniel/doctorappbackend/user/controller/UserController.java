@@ -3,6 +3,7 @@ package com.daniel.doctorappbackend.user.controller;
 import com.daniel.doctorappbackend.city.exception.CityNotFoundException;
 import com.daniel.doctorappbackend.medicalservice.exception.MedicalServiceNotFoundException;
 import com.daniel.doctorappbackend.specialization.exception.SpecializationNotFoundException;
+import com.daniel.doctorappbackend.user.exception.InvalidPasswordException;
 import com.daniel.doctorappbackend.user.repository.UserRepository;
 import com.daniel.doctorappbackend.user.service.UserService;
 import com.daniel.doctorappbackend.user.exception.UserExistException;
@@ -14,7 +15,6 @@ import com.daniel.doctorappbackend.user.model.dto.CreatePatientRequest;
 import com.daniel.doctorappbackend.user.model.dto.LoginUserRequest;
 import com.daniel.doctorappbackend.user.model.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -28,7 +28,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public UserResponse login(@RequestBody LoginUserRequest loginUserRequest) throws UserNotFoundException {
+    public UserResponse login(@RequestBody LoginUserRequest loginUserRequest) throws UserNotFoundException, InvalidPasswordException {
         return this.userService.findUser(loginUserRequest.getEmail(), loginUserRequest.getPassword());
     }
 

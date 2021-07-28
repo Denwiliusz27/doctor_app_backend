@@ -13,20 +13,19 @@ import java.util.Optional;
 
 // dodanie (postMapping) nowego miasta /miasta/dodaj/{NazwaMiasta}
 
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/cities")  // localhost:8080/miasta
+@RequiredArgsConstructor
 public class CityController {
-    private CityRepository cityRepository;
-    private CityService cityService;
+    private final CityService cityService;
 
-    @GetMapping("get/{cityId}")
+    @GetMapping("/get/{cityId}")
     public CityResponse getCityById(@PathVariable long cityId) throws CityNotFoundException {
         return this.cityService.findById(cityId);
     }
 
-    @GetMapping("getAll")
+    @GetMapping()
     public List<CityResponse> getAllCities(){
         return this.cityService.findAll();
     }

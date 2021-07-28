@@ -1,5 +1,7 @@
 package com.daniel.doctorappbackend.user.advice;
 
+import com.daniel.doctorappbackend.user.exception.InvalidPasswordException;
+import com.daniel.doctorappbackend.user.exception.UserErrorResponse;
 import com.daniel.doctorappbackend.user.exception.UserExistException;
 import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -11,9 +13,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class UserControllerAdvice {
     @ExceptionHandler({UserNotFoundException.class, UserExistException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public String handleUserNotFound(UserNotFoundException userNotFoundException){
-        return userNotFoundException.getMessage();
+    public UserErrorResponse handleUserNotFound(UserNotFoundException userNotFoundException){
+        return UserErrorResponse.EMAIL_NOT_EXIST;
     }
+
+    @ExceptionHandler({InvalidPasswordException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public UserErrorResponse handleInvalidPasswordException(InvalidPasswordException invalidPasswordException){
+        return UserErrorResponse.INVALID_PASSWORD;
+    }
+
+
 
     /*
     @ResponseStatus(value = HttpStatus.FOUND)

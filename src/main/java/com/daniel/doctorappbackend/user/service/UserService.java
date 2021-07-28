@@ -3,6 +3,7 @@ package com.daniel.doctorappbackend.user.service;
 import com.daniel.doctorappbackend.city.exception.CityNotFoundException;
 import com.daniel.doctorappbackend.medicalservice.exception.MedicalServiceNotFoundException;
 import com.daniel.doctorappbackend.specialization.exception.SpecializationNotFoundException;
+import com.daniel.doctorappbackend.user.exception.InvalidPasswordException;
 import com.daniel.doctorappbackend.user.exception.UserExistException;
 import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
 import com.daniel.doctorappbackend.user.model.UserEntity;
@@ -22,8 +23,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final Map<UserRole, UserStrategy<? extends UserResponse>> userStrategyMap;
 
-    public UserResponse findUser(String email, String password) throws UserNotFoundException {
-        UserEntity userEntity = userRepository.findUserByEmailAndPassword(email, password).orElseThrow(UserNotFoundException::new);
+    public UserResponse findUser(String email, String password) throws UserNotFoundException, InvalidPasswordException {
+        UserEntity userEntity = userRepository.findUserByEmail(email).orElseThrow(UserNotFoundException::new);
+        if (!userEntity.getPassword().equals(password)){
+            throw new InvalidPasswordException();
+        }
         return this.userStrategyMap.get(userEntity.getRole()).buildUser(email, password);
     }
 

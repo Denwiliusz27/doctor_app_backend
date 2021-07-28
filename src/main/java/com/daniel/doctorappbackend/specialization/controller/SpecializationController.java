@@ -2,22 +2,20 @@ package com.daniel.doctorappbackend.specialization.controller;
 
 import com.daniel.doctorappbackend.specialization.repository.SpecializationRepository;
 import com.daniel.doctorappbackend.specialization.model.SpecializationEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin
 @RestController
-@RequestMapping("/specjalization")
+@RequestMapping("/specializations")
+@RequiredArgsConstructor
 public class SpecializationController {
-    public SpecializationRepository specializationRepository;
+    private final SpecializationRepository specializationRepository;
 
-    public SpecializationController(SpecializationRepository specializationRepository) {
-        this.specializationRepository = specializationRepository;
-    }
-
-    @GetMapping("/wszystkie")
+    @GetMapping
     public List<SpecializationEntity> getAllSpecializations(){
         return specializationRepository.findAll();
     }
