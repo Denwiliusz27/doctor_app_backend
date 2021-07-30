@@ -21,15 +21,17 @@ public class DemoData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        SpecializationEntity internista = specializationRepository.save(SpecializationEntity.builder().name("internista").build());
-        SpecializationEntity stomatolog = specializationRepository.save(SpecializationEntity.builder().name("stomatolog").build());
-        SpecializationEntity kardiolog =specializationRepository.save(SpecializationEntity.builder().name("kardiolog").build());
-        SpecializationEntity neurolog = specializationRepository.save(SpecializationEntity.builder().name("neurolog").build());
-        SpecializationEntity laryngolog =specializationRepository.save(SpecializationEntity.builder().name("laryngolog").build());
-        SpecializationEntity endokrynolog =specializationRepository.save(SpecializationEntity.builder().name("endokrynolog").build());
-        SpecializationEntity ortopeda =specializationRepository.save(SpecializationEntity.builder().name("ortopeda").build());
-        SpecializationEntity pielegniarka =specializationRepository.save(SpecializationEntity.builder().name("pielęgniarka laboratoryjna").build());
-        SpecializationEntity elektroradiolog =specializationRepository.save(SpecializationEntity.builder().name("elektroradiolog").build());
+        if(specializationRepository.count() == 0) {
+            SpecializationEntity internista = specializationRepository.save(SpecializationEntity.builder().name("internista").build());
+            SpecializationEntity stomatolog = specializationRepository.save(SpecializationEntity.builder().name("stomatolog").build());
+            SpecializationEntity kardiolog = specializationRepository.save(SpecializationEntity.builder().name("kardiolog").build());
+            SpecializationEntity neurolog = specializationRepository.save(SpecializationEntity.builder().name("neurolog").build());
+            SpecializationEntity laryngolog = specializationRepository.save(SpecializationEntity.builder().name("laryngolog").build());
+            SpecializationEntity endokrynolog = specializationRepository.save(SpecializationEntity.builder().name("endokrynolog").build());
+            SpecializationEntity ortopeda = specializationRepository.save(SpecializationEntity.builder().name("ortopeda").build());
+            SpecializationEntity pielegniarka = specializationRepository.save(SpecializationEntity.builder().name("pielęgniarka laboratoryjna").build());
+            SpecializationEntity elektroradiolog = specializationRepository.save(SpecializationEntity.builder().name("elektroradiolog").build());
+
 
         medicalServiceRepository.save(MedicalServiceEntity.builder()
                 .name("konsultacja")
@@ -147,9 +149,12 @@ public class DemoData implements CommandLineRunner {
                 .name("RTG")
                 .specialization(elektroradiolog)
                 .build());
+        }
 
-        cityRepository.save(CityEntity.builder().name("Kraków").build());
-        cityRepository.save(CityEntity.builder().name("Warszawa").build());
-        cityRepository.save(CityEntity.builder().name("Gdańsk").build());
+        if(cityRepository.count() == 0) {
+            cityRepository.save(CityEntity.builder().name("Kraków").build());
+            cityRepository.save(CityEntity.builder().name("Warszawa").build());
+            cityRepository.save(CityEntity.builder().name("Gdańsk").build());
+        }
     }
 }

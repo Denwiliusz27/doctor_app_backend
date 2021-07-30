@@ -32,6 +32,10 @@ public class UserService {
     }
 
     public <T extends CreateUserRequest> UserResponse createUser(T createUserRequest, UserRole role) throws UserExistException, SpecializationNotFoundException, CityNotFoundException, MedicalServiceNotFoundException {
-         return this.userStrategyMap.get(role).createUser(createUserRequest);
+        UserEntity userEntity = userRepository.findUserByEmail(createUserRequest.getEmail()).orElse(null);
+        if (userEntity != null){
+            throw new UserExistException();
+        }
+        return this.userStrategyMap.get(role).createUser(createUserRequest);
     }
 }

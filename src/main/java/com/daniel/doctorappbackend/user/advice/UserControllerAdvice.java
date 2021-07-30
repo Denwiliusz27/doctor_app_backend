@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class UserControllerAdvice {
-    @ExceptionHandler({UserNotFoundException.class, UserExistException.class})
+    @ExceptionHandler({UserNotFoundException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public UserErrorResponse handleUserNotFound(UserNotFoundException userNotFoundException){
         return UserErrorResponse.EMAIL_NOT_EXIST;
@@ -23,7 +23,11 @@ public class UserControllerAdvice {
         return UserErrorResponse.INVALID_PASSWORD;
     }
 
-
+    @ExceptionHandler({UserExistException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public UserErrorResponse handleUserExistException(UserExistException userExistException){
+        return UserErrorResponse.USER_EXIST;
+    }
 
     /*
     @ResponseStatus(value = HttpStatus.FOUND)

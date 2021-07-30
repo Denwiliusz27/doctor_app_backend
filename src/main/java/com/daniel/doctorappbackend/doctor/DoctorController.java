@@ -7,7 +7,7 @@ import java.util.Optional;
 
 @CrossOrigin("http://localhost:4200")
 @RestController
-@RequestMapping("/lekarz")
+@RequestMapping("/doctors")
 public class DoctorController {
     public DoctorRepository doctorRepository;
 
@@ -15,7 +15,7 @@ public class DoctorController {
         this.doctorRepository = doctorRepository;
     }
 
-    @GetMapping("/wszyscy")
+    @GetMapping()
     public List<DoctorEntity> getAllDoctors() {
         System.out.println("jestem w backendzie!");
         return doctorRepository.findAll();
