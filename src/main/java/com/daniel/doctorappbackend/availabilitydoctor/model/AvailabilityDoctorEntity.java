@@ -1,31 +1,35 @@
-package com.daniel.doctorappbackend.doctorServices.model;
+package com.daniel.doctorappbackend.availabilitydoctor.model;
 
 import com.daniel.doctorappbackend.doctor.model.DoctorEntity;
-import com.daniel.doctorappbackend.medicalservice.model.MedicalServiceEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
-@AllArgsConstructor
+@Table(name = "availability_doctor")
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@Table(name = "doctor_services")
-public class DoctorServiceEntity {
+public class AvailabilityDoctorEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
     private DoctorEntity doctor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "service_id")
-    private MedicalServiceEntity service;
+    @Column(name = "date_from")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date from;
+
+    @Column(name = "date_to")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date to;
+
 }

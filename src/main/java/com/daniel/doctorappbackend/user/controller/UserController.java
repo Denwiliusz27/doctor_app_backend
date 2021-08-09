@@ -29,7 +29,7 @@ public class UserController {
 
     @PostMapping("/login")
     public UserResponse login(@RequestBody LoginUserRequest loginUserRequest) throws UserNotFoundException, InvalidPasswordException {
-        return this.userService.findUser(loginUserRequest.getEmail(), loginUserRequest.getPassword());
+        return this.userService.findUser(loginUserRequest.getEmail(), loginUserRequest.getPassword(), loginUserRequest.getRole());
     }
 
     @PostMapping("/create/patient")

@@ -1,5 +1,6 @@
-package com.daniel.doctorappbackend.doctor;
+package com.daniel.doctorappbackend.doctor.repository;
 
+import com.daniel.doctorappbackend.doctor.model.DoctorEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,10 +12,5 @@ public interface DoctorRepository extends JpaRepository<DoctorEntity, Long> {
     List<DoctorEntity> findAll();
     Optional<DoctorEntity> findByUserEmailAndUserPassword(String email, String password);
     Optional<DoctorEntity> findByUserEmail(String email);
-
-    /*List<DoctorEntity> findAllBySpecializationId(Long specializationId);
-
-    List<DoctorEntity> findAllByCityId(Long cityId);
-
-    Optional<DoctorEntity> findByDoctorEmailAddress(String emailAddress);*/
+    List<DoctorEntity> findByCityIdAndSpecializationId(Long cityId, Long specializationId);
 }

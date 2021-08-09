@@ -23,8 +23,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final Map<UserRole, UserStrategy<? extends UserResponse>> userStrategyMap;
 
-    public UserResponse findUser(String email, String password) throws UserNotFoundException, InvalidPasswordException {
-        UserEntity userEntity = userRepository.findUserByEmail(email).orElseThrow(UserNotFoundException::new);
+    public UserResponse findUser(String email, String password, UserRole role) throws UserNotFoundException, InvalidPasswordException {
+        UserEntity userEntity = userRepository.findUserByEmailAndRole(email, role).orElseThrow(UserNotFoundException::new);
         if (!userEntity.getPassword().equals(password)){
             throw new InvalidPasswordException();
         }

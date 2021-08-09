@@ -1,7 +1,5 @@
 package com.daniel.doctorappbackend.doctorServices.model.dto;
 
-import com.daniel.doctorappbackend.doctor.DoctorEntity;
-import com.daniel.doctorappbackend.medicalservice.model.MedicalServiceEntity;
 import com.daniel.doctorappbackend.medicalservice.model.dto.MedicalServiceResponse;
 import lombok.Builder;
 import lombok.Data;

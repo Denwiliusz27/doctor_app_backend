@@ -4,8 +4,8 @@ import com.daniel.doctorappbackend.city.exception.CityNotFoundException;
 import com.daniel.doctorappbackend.city.model.CityEntity;
 import com.daniel.doctorappbackend.city.model.dto.CityResponse;
 import com.daniel.doctorappbackend.city.service.CityService;
-import com.daniel.doctorappbackend.doctor.DoctorEntity;
-import com.daniel.doctorappbackend.doctor.DoctorRepository;
+import com.daniel.doctorappbackend.doctor.model.DoctorEntity;
+import com.daniel.doctorappbackend.doctor.repository.DoctorRepository;
 import com.daniel.doctorappbackend.doctorServices.model.DoctorServiceEntity;
 import com.daniel.doctorappbackend.doctorServices.model.dto.DoctorServiceResponse;
 import com.daniel.doctorappbackend.doctorServices.service.DoctorService;
@@ -16,7 +16,6 @@ import com.daniel.doctorappbackend.specialization.exception.SpecializationNotFou
 import com.daniel.doctorappbackend.specialization.model.SpecializationEntity;
 import com.daniel.doctorappbackend.specialization.model.dto.SpecializationResponse;
 import com.daniel.doctorappbackend.specialization.service.SpecializationService;
-import com.daniel.doctorappbackend.user.model.dto.MedicalServiceDoctorRequest;
 import com.daniel.doctorappbackend.user.repository.UserRepository;
 import com.daniel.doctorappbackend.user.exception.UserExistException;
 import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
@@ -30,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +41,10 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
     private final CityService cityService;
     private final DoctorService doctorService;
     private final MedicalService medicalService;
+
+    public Optional<DoctorEntity> findById(Long id) {
+        return this.doctorRepository.findById(id);
+    }
 
     @Override
     public DoctorResponse buildUser(String email, String password) throws UserNotFoundException {
@@ -146,5 +150,12 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
                                 ).collect(Collectors.toList())
                 )
                 .build();
+    }
+
+    public List<DoctorResponse> findDoctorByCityAndSpecialization(Long cityId, Long specializationId) {
+        return this.doctorRepository.findByCityIdAndSpecializationId(cityId, specializationId)
+                .stream()
+                .map(doctorEntity -> this.mapToDoctorResponse(doctorEntity, this.doctorService.findByDoctorId(doctorEntity.getId())))
+                .collect(Collectors.toList());
     }
 }

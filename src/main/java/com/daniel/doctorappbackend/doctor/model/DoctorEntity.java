@@ -1,4 +1,4 @@
-package com.daniel.doctorappbackend.doctor;
+package com.daniel.doctorappbackend.doctor.model;
 
 import com.daniel.doctorappbackend.city.model.CityEntity;
 import com.daniel.doctorappbackend.specialization.model.SpecializationEntity;
