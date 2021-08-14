@@ -20,4 +20,19 @@ public class DoctorController {
                                                                    @RequestParam(name = "specializationId") Long specializationId ){
         return doctorStrategy.findDoctorByCityAndSpecialization(cityId, specializationId);
     }
+
+    @GetMapping("/all")
+    public List<DoctorResponse> findAllDoctors(){
+        return doctorStrategy.findAll();
+    }
+
+    @GetMapping("/city")
+    public List<DoctorResponse> findDoctorsByCity(@RequestParam(name = "cityId") Long cityId){
+        return doctorStrategy.findDoctorByCity(cityId);
+    }
+
+    @GetMapping("/specialization")
+    public List<DoctorResponse> findDoctorsBySpecialization(@RequestParam(name = "specializationId") Long specializationId){
+        return doctorStrategy.findDoctorBySpecialization(specializationId);
+    }
 }
