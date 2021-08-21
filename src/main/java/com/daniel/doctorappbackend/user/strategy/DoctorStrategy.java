@@ -24,6 +24,7 @@ import com.daniel.doctorappbackend.user.model.UserRole;
 import com.daniel.doctorappbackend.user.model.dto.CreateDoctorRequest;
 import com.daniel.doctorappbackend.user.model.dto.CreateUserRequest;
 import com.daniel.doctorappbackend.user.model.dto.DoctorResponse;
+import com.daniel.doctorappbackend.visits.service.VisitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,7 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
     private final CityService cityService;
     private final DoctorService doctorService;
     private final MedicalService medicalService;
+    private final VisitService visitService;
 
     public Optional<DoctorEntity> findById(Long id) {
         return this.doctorRepository.findById(id);
@@ -149,6 +151,7 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
                                 .build()
                                 ).collect(Collectors.toList())
                 )
+                .visits(visitService.findByDoctorId(doctorEntity.getId()))
                 .build();
     }
 

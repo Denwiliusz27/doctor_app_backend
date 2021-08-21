@@ -13,6 +13,8 @@ import com.daniel.doctorappbackend.user.model.dto.PatientResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class PatientStrategy implements UserStrategy<PatientResponse>{
@@ -62,5 +64,9 @@ public class PatientStrategy implements UserStrategy<PatientResponse>{
                 .pesel(patientEntity.getPesel())
                 .userRole(patientEntity.getUser().getRole())
                 .build();
+    }
+
+    public Optional<PatientEntity> findPatientById(Long id){
+        return this.patientRepository.findById(id);
     }
 }

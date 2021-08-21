@@ -3,6 +3,7 @@ package com.daniel.doctorappbackend.user.model.dto;
 import com.daniel.doctorappbackend.city.model.dto.CityResponse;
 import com.daniel.doctorappbackend.doctorServices.model.dto.DoctorServiceResponse;
 import com.daniel.doctorappbackend.specialization.model.dto.SpecializationResponse;
+import com.daniel.doctorappbackend.visits.model.dto.VisitResponse;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,4 +21,5 @@ public class DoctorResponse extends UserResponse {
     private SpecializationResponse specialization;
     private CityResponse city;
     private List<DoctorServiceResponse> doctorServices;
+    private List<VisitResponse> visits;
 }
