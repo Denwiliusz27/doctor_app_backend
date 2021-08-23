@@ -45,4 +45,8 @@ public class MedicalService {
     public Optional<MedicalServiceEntity> findById(Long id){
         return this.medicalServiceRepository.findById(id);
     }
+
+    public Optional<MedicalServiceResponse> findMedicalServiceById(Long id){
+        return this.medicalServiceRepository.findById(id).map(this::mapToMedicalServiceResponse);
+    }
 }

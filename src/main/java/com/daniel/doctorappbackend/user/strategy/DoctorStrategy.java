@@ -182,4 +182,9 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
                 .map(doctorEntity -> this.mapToDoctorResponse(doctorEntity, this.doctorService.findByDoctorId(doctorEntity.getId())))
                 .collect(Collectors.toList());
     }
+
+    public Optional<DoctorResponse> findDoctorById(Long doctorId) {
+        return this.doctorRepository.findById(doctorId)
+                .map(doctorEntity -> this.mapToDoctorResponse(doctorEntity, this.doctorService.findByDoctorId(doctorEntity.getId())));
+    }
 }

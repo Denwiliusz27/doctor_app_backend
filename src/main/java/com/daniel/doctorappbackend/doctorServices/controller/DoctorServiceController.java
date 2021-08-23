@@ -27,8 +27,8 @@ public class DoctorServiceController {
         return doctorServiceRepository.findById(id);
     }
 
-    @GetMapping("/id-uslugi/{serviceId}")
-    public Optional<DoctorServiceEntity> getDoctorServiceByServiceId(@PathVariable Long serviceId){
+    @GetMapping("/id-uslugi")
+    public Optional<DoctorServiceEntity> getDoctorServiceByServiceId(@RequestParam(name = "serviceId") Long serviceId){
         return doctorServiceRepository.findAllByServiceId(serviceId);
     }
 

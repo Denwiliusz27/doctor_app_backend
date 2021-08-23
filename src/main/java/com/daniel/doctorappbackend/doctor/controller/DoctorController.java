@@ -35,4 +35,9 @@ public class DoctorController {
     public List<DoctorResponse> findDoctorsBySpecialization(@RequestParam(name = "specializationId") Long specializationId){
         return doctorStrategy.findDoctorBySpecialization(specializationId);
     }
+
+    @GetMapping("/id")
+    public Optional<DoctorResponse> findDoctorsById(@RequestParam(name = "id") Long doctorId){
+        return doctorStrategy.findDoctorById(doctorId);
+    }
 }

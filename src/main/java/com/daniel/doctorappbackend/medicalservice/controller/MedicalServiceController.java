@@ -27,6 +27,11 @@ public class MedicalServiceController {
     public List<MedicalServiceResponse> findBySpecializationID(@PathVariable Long specializationId){
         return medicalService.findBySpecializationId(specializationId);
     }
+
+    @GetMapping("/id/{serviceId}")
+    public Optional<MedicalServiceResponse> findById(@PathVariable Long serviceId){
+        return medicalService.findMedicalServiceById(serviceId);
+    }
 /*
     @GetMapping("/specjalizacja/{specializationId}")
     public List<MedicalServiceEntity> getServicesBySpecializationId(@PathVariable Long specializationId){
