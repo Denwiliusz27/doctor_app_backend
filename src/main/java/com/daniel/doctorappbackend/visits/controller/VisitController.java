@@ -5,7 +5,7 @@ import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
 import com.daniel.doctorappbackend.visits.exception.VisitNotFoundException;
 import com.daniel.doctorappbackend.visits.model.dto.UpdateVisitRequest;
 import com.daniel.doctorappbackend.visits.model.dto.VisitResponse;
-import com.daniel.doctorappbackend.visits.model.dto.VisitResponse2;
+import com.daniel.doctorappbackend.visits.model.dto.VisitWithDoctorResponse;
 import com.daniel.doctorappbackend.visits.service.VisitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -39,14 +39,14 @@ public class VisitController {
         return this.visitService.updateVisit(visitRequest);
     }
 
-    @GetMapping("/id2")
-    public VisitResponse2 getVisitById2(@RequestParam(name = "visitId") Long visitId) throws VisitNotFoundException {
-        return this.visitService.getVisitById2(visitId);
+    @GetMapping("/visitWithDoctor/id")
+    public VisitWithDoctorResponse getVisitWithDoctorById(@RequestParam(name = "visitId") Long visitId) throws VisitNotFoundException {
+        return this.visitService.getVisitWithDoctorById(visitId);
     }
 
-    @GetMapping("/patient2")
-    public List<VisitResponse2> getVisitsByPatientId2(@RequestParam(name="patientId") Long patientId){
-        return this.visitService.findByPatientId2(patientId);
+    @GetMapping("/visitWithDoctor/patient")
+    public List<VisitWithDoctorResponse> getVisitsByPatientId2(@RequestParam(name="patientId") Long patientId){
+        return this.visitService.findWithDoctorByPatientId(patientId);
     }
 
 }

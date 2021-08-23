@@ -18,7 +18,8 @@ import com.daniel.doctorappbackend.visits.exception.VisitNotFoundException;
 import com.daniel.doctorappbackend.visits.model.VisitEntity;
 import com.daniel.doctorappbackend.visits.model.dto.UpdateVisitRequest;
 import com.daniel.doctorappbackend.visits.model.dto.VisitResponse;
-import com.daniel.doctorappbackend.visits.model.dto.VisitResponse2;
+import com.daniel.doctorappbackend.visits.model.dto.VisitWithDoctorResponse;
+import com.daniel.doctorappbackend.visits.model.dto.VisitWithDoctorResponse;
 import com.daniel.doctorappbackend.visits.repository.VisitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -99,12 +100,12 @@ public class VisitService {
         return this.visitRepository.findById(id).map(this::mapToResponse).orElseThrow(() -> new VisitNotFoundException(id));
     }
 
-    public VisitResponse2 getVisitById2(Long id) throws VisitNotFoundException {
-        return this.visitRepository.findById(id).map(this::mapToResponse2).orElseThrow(() -> new VisitNotFoundException(id));
+    public VisitWithDoctorResponse getVisitWithDoctorById(Long id) throws VisitNotFoundException {
+        return this.visitRepository.findById(id).map(this::mapToResponseWithDoctor).orElseThrow(() -> new VisitNotFoundException(id));
     }
 
-    public VisitResponse2 mapToResponse2(VisitEntity entity) {
-        return VisitResponse2.builder()
+    public VisitWithDoctorResponse mapToResponseWithDoctor(VisitEntity entity) {
+        return VisitWithDoctorResponse.builder()
                 .doctor(
                         DoctorResponse.builder()
                                 .name(entity.getDoctor().getUser().getName())
@@ -146,7 +147,7 @@ public class VisitService {
                                                                 .build()
                                                 ).collect(Collectors.toList())
                                 )
-                                .visits(this.findByDoctorId(entity.getDoctor().getId()))
+                                .visits(null)
                                 .build()
                 )
                 .patientId(Optional.ofNullable(entity.getPatient()).map(PatientEntity::getId).orElse(null))
@@ -168,7 +169,7 @@ public class VisitService {
                 .build();
     }
 
-    public List<VisitResponse2> findByPatientId2(Long patientId) {
-        return null;
+    public List<VisitWithDoctorResponse> findWithDoctorByPatientId(Long patientId) {
+        return this.visitRepository.findAllByPatientId(patientId).stream().map(this::mapToResponseWithDoctor).collect(Collectors.toList());
     }
 }

@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @Builder
-public class VisitResponse2 {
+public class VisitWithDoctorResponse {
     private Long id;
     private Long patientId;
     private DoctorResponse doctor;
