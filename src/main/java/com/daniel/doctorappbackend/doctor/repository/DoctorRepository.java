@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface DoctorRepository extends JpaRepository<DoctorEntity, Long> {
     List<DoctorEntity> findAll();
     Optional<DoctorEntity> findByUserEmailAndUserPassword(String email, String password);
-    Optional<DoctorEntity> findByUserEmail(String email);
+    Optional<DoctorEntity> findByUserId(Long id);
     List<DoctorEntity> findByCityIdAndSpecializationId(Long cityId, Long specializationId);
     List<DoctorEntity> findByCityId(Long cityId);
     List<DoctorEntity> findBySpecializationId(Long specializationId);

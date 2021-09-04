@@ -24,4 +24,8 @@ public class DoctorService {
     public DoctorServiceEntity add(DoctorServiceEntity doctorServiceEntity){
         return doctorServiceRepository.save(doctorServiceEntity);
     }
+
+    public Optional<DoctorServiceEntity> findByIdAndDoctorId(Long id, Long doctorId) {
+        return this.doctorServiceRepository.findByServiceIdAndDoctorId(id, doctorId);
+    }
 }

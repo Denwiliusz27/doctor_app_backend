@@ -13,10 +13,11 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
-  properties:
-    hibernate:
-      jdbc:
-        lob:
-          non_contextual_creation: true
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+          lob:
+            non_contextual_creation: true
 #  liquibase:
 #    change-log: classpath:/db/changelog/db.changelog-master.xml

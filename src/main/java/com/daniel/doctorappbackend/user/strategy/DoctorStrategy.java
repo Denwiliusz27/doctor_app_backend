@@ -16,6 +16,7 @@ import com.daniel.doctorappbackend.specialization.exception.SpecializationNotFou
 import com.daniel.doctorappbackend.specialization.model.SpecializationEntity;
 import com.daniel.doctorappbackend.specialization.model.dto.SpecializationResponse;
 import com.daniel.doctorappbackend.specialization.service.SpecializationService;
+import com.daniel.doctorappbackend.user.model.dto.PatientResponse;
 import com.daniel.doctorappbackend.user.repository.UserRepository;
 import com.daniel.doctorappbackend.user.exception.UserExistException;
 import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -185,6 +187,15 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
 
     public Optional<DoctorResponse> findDoctorById(Long doctorId) {
         return this.doctorRepository.findById(doctorId)
+                .map(doctorEntity -> this.mapToDoctorResponse(doctorEntity, this.doctorService.findByDoctorId(doctorEntity.getId())));
+    }
+
+    public Set<PatientResponse> findPatients(Long doctorId) {
+        return this.visitService.findPatientByDoctorId(doctorId);
+    }
+
+    public Optional<DoctorResponse> findDoctorByUserId(Long id) {
+        return this.doctorRepository.findByUserId(id)
                 .map(doctorEntity -> this.mapToDoctorResponse(doctorEntity, this.doctorService.findByDoctorId(doctorEntity.getId())));
     }
 }

@@ -14,4 +14,5 @@ public interface DoctorServiceRepository extends JpaRepository<DoctorServiceEnti
     Optional<DoctorServiceEntity> findAllByServiceId(Long serviceId);
 
     List<DoctorServiceEntity> findAllByDoctorId(Long doctorId);
+    Optional<DoctorServiceEntity> findByServiceIdAndDoctorId(Long id, Long doctorId);
 }

@@ -1,12 +1,14 @@
 package com.daniel.doctorappbackend.doctor.controller;
 
 import com.daniel.doctorappbackend.user.model.dto.DoctorResponse;
+import com.daniel.doctorappbackend.user.model.dto.PatientResponse;
 import com.daniel.doctorappbackend.user.strategy.DoctorStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -39,5 +41,15 @@ public class DoctorController {
     @GetMapping("/id")
     public Optional<DoctorResponse> findDoctorsById(@RequestParam(name = "id") Long doctorId){
         return doctorStrategy.findDoctorById(doctorId);
+    }
+
+    @GetMapping("/{doctorId}/patients")
+    public Set<PatientResponse> findPatients(@PathVariable(name = "doctorId") Long doctorId){
+        return doctorStrategy.findPatients(doctorId);
+    }
+
+    @GetMapping("/{userId}/doctor")
+    public Optional<DoctorResponse> findDoctorByUserId(@PathVariable(name = "userId") Long id){
+        return doctorStrategy.findDoctorByUserId(id);
     }
 }

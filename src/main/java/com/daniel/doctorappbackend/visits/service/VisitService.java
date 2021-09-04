@@ -3,6 +3,7 @@ package com.daniel.doctorappbackend.visits.service;
 import com.daniel.doctorappbackend.availabilitydoctor.model.AvailabilityDoctorEntity;
 import com.daniel.doctorappbackend.city.model.dto.CityResponse;
 import com.daniel.doctorappbackend.doctor.model.DoctorEntity;
+import com.daniel.doctorappbackend.doctorServices.model.DoctorServiceEntity;
 import com.daniel.doctorappbackend.doctorServices.model.dto.DoctorServiceResponse;
 import com.daniel.doctorappbackend.doctorServices.service.DoctorService;
 import com.daniel.doctorappbackend.medicalservice.exception.MedicalServiceNotFoundException;
@@ -13,20 +14,19 @@ import com.daniel.doctorappbackend.patient.PatientEntity;
 import com.daniel.doctorappbackend.specialization.model.dto.SpecializationResponse;
 import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
 import com.daniel.doctorappbackend.user.model.dto.DoctorResponse;
+import com.daniel.doctorappbackend.user.model.dto.PatientResponse;
 import com.daniel.doctorappbackend.user.strategy.PatientStrategy;
 import com.daniel.doctorappbackend.visits.exception.VisitNotFoundException;
 import com.daniel.doctorappbackend.visits.model.VisitEntity;
 import com.daniel.doctorappbackend.visits.model.dto.UpdateVisitRequest;
+import com.daniel.doctorappbackend.visits.model.dto.VisitDetails;
 import com.daniel.doctorappbackend.visits.model.dto.VisitResponse;
-import com.daniel.doctorappbackend.visits.model.dto.VisitWithDoctorResponse;
 import com.daniel.doctorappbackend.visits.model.dto.VisitWithDoctorResponse;
 import com.daniel.doctorappbackend.visits.repository.VisitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,6 +57,26 @@ public class VisitService {
         return this.visitRepository.findAllByPatientId(id).stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
+    public Set<PatientResponse> findPatientByDoctorId(Long id) {
+        return new HashSet<>(this.visitRepository.findAllByDoctorIdAndPatientIsNotNull(id))
+                .stream()
+                .map(this::visitToPatient)
+                .collect(Collectors.toSet());
+    }
+
+    public PatientResponse visitToPatient(VisitEntity visitEntity) {
+        PatientEntity patientEntity = visitEntity.getPatient();
+        return PatientResponse.builder()
+                .name(patientEntity.getUser().getName())
+                .id(patientEntity.getId())
+                .email(patientEntity.getUser().getEmail())
+                .surname(patientEntity.getUser().getSurname())
+                .pesel(patientEntity.getPesel())
+                .userRole(patientEntity.getUser().getRole())
+                .userId(patientEntity.getUser().getId())
+                .build();
+    }
+
     public void addVisits(DoctorEntity doctorEntity, AvailabilityDoctorEntity availabilityDoctorEntity, Date from, Date to) {
         Date temp = (Date)from.clone();
         long newTime;
@@ -79,7 +99,7 @@ public class VisitService {
     }
 
     public List<VisitResponse> findFreeVisits(Long doctorId) {
-        return this.visitRepository.findAllByDoctorIdAndPatientIsNull(doctorId)
+        return this.visitRepository.findAllByDoctorIdAndPatientIsNullAndFromIsAfter(doctorId, new Date())
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -171,5 +191,51 @@ public class VisitService {
 
     public List<VisitWithDoctorResponse> findWithDoctorByPatientId(Long patientId) {
         return this.visitRepository.findAllByPatientId(patientId).stream().map(this::mapToResponseWithDoctor).collect(Collectors.toList());
+    }
+
+    public VisitDetails toVisitDetails(VisitEntity entity) {
+        Optional<DoctorServiceEntity> serviceEntity = this.doctorService.findByIdAndDoctorId(entity.getMedicalService().getId(), entity.getDoctor().getId());
+        return VisitDetails.builder()
+                .from(entity.getFrom())
+                .to(entity.getTo())
+                .doctor(
+                        DoctorResponse.builder()
+                                .name(entity.getDoctor().getUser().getName())
+                                .surname(entity.getDoctor().getUser().getSurname())
+                                .email(entity.getDoctor().getUser().getEmail())
+                                .userId(entity.getDoctor().getUser().getId())
+                                .id(entity.getDoctor().getId())
+                                .description(entity.getDoctor().getDescription())
+                                .phoneNumber(entity.getDoctor().getPhoneNumber())
+                                .address(entity.getDoctor().getAddress())
+                                .userRole(entity.getDoctor().getUser().getRole())
+                                .specialization(
+                                        SpecializationResponse.builder()
+                                                .id(entity.getDoctor().getSpecialization().getId())
+                                                .name(entity.getDoctor().getSpecialization().getName())
+                                                .build()
+                                )
+                                .city(
+                                        CityResponse.builder()
+                                                .id(entity.getDoctor().getCity().getId())
+                                                .name(entity.getDoctor().getCity().getName())
+                                                .build()
+                                ).build()
+                )
+                .service(
+                        DoctorServiceResponse.builder()
+                                .price(serviceEntity.get().getPrice())
+                                .medicalService(MedicalServiceResponse.builder()
+                                        .name(serviceEntity.get().getService().getName())
+                                        .build())
+                                .build()
+                )
+                .build();
+    }
+
+    public VisitDetails getDetailsVisit(Long visitId) throws VisitNotFoundException {
+        return  this.visitRepository.findById(visitId)
+                .map(this::toVisitDetails)
+                .orElseThrow(() -> new VisitNotFoundException(visitId));
     }
 }

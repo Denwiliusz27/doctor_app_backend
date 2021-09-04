@@ -4,6 +4,7 @@ import com.daniel.doctorappbackend.medicalservice.exception.MedicalServiceNotFou
 import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
 import com.daniel.doctorappbackend.visits.exception.VisitNotFoundException;
 import com.daniel.doctorappbackend.visits.model.dto.UpdateVisitRequest;
+import com.daniel.doctorappbackend.visits.model.dto.VisitDetails;
 import com.daniel.doctorappbackend.visits.model.dto.VisitResponse;
 import com.daniel.doctorappbackend.visits.model.dto.VisitWithDoctorResponse;
 import com.daniel.doctorappbackend.visits.service.VisitService;
@@ -32,6 +33,11 @@ public class VisitController {
     @GetMapping("/id")
     public VisitResponse getVisitById(@RequestParam(name = "visitId") Long visitId) throws VisitNotFoundException {
         return this.visitService.getVisitById(visitId);
+    }
+
+    @GetMapping("/details/{visitId}")
+    public VisitDetails getDetailsVisitById(@PathVariable(name = "visitId") Long visitId) throws VisitNotFoundException {
+        return this.visitService.getDetailsVisit(visitId);
     }
 
     @PutMapping()
