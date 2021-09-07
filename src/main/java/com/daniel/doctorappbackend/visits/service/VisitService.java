@@ -18,10 +18,7 @@ import com.daniel.doctorappbackend.user.model.dto.PatientResponse;
 import com.daniel.doctorappbackend.user.strategy.PatientStrategy;
 import com.daniel.doctorappbackend.visits.exception.VisitNotFoundException;
 import com.daniel.doctorappbackend.visits.model.VisitEntity;
-import com.daniel.doctorappbackend.visits.model.dto.UpdateVisitRequest;
-import com.daniel.doctorappbackend.visits.model.dto.VisitDetails;
-import com.daniel.doctorappbackend.visits.model.dto.VisitResponse;
-import com.daniel.doctorappbackend.visits.model.dto.VisitWithDoctorResponse;
+import com.daniel.doctorappbackend.visits.model.dto.*;
 import com.daniel.doctorappbackend.visits.repository.VisitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -193,11 +190,57 @@ public class VisitService {
         return this.visitRepository.findAllByPatientId(patientId).stream().map(this::mapToResponseWithDoctor).collect(Collectors.toList());
     }
 
+    public VisitWithPatientResponse mapToResponseWithPatient(VisitEntity entity) {
+        return VisitWithPatientResponse.builder()
+                .id(entity.getId())
+                .patient(
+                        PatientResponse.builder()
+                                .name(entity.getPatient().getUser().getName())
+                                .surname(entity.getPatient().getUser().getSurname())
+                                .email(entity.getPatient().getUser().getEmail())
+                                .userId(entity.getPatient().getUser().getId())
+                                .id(entity.getPatient().getId())
+                                .pesel(entity.getPatient().getPesel())
+                                .userRole(entity.getPatient().getUser().getRole())
+                                .build()
+                )
+                .medicalService(
+                        MedicalServiceResponse.builder()
+                                .id(entity.getMedicalService().getId())
+                                .name(entity.getMedicalService().getName())
+                                .specialization(SpecializationResponse.builder()
+                                        .id(entity.getMedicalService().getSpecialization().getId())
+                                        .name(entity.getMedicalService().getSpecialization().getName())
+                                        .build()
+                                )
+                                .build()
+                )
+                .from(entity.getFrom())
+                .to(entity.getTo())
+                .build();
+    }
+
+    public List<VisitWithPatientResponse> findVisitsWithPatientByDoctorId(Long id)  {
+        return this.visitRepository.findAllByDoctorIdAndPatientIsNotNull(id).stream().map(this::mapToResponseWithPatient).collect(Collectors.toList());
+    }
+
     public VisitDetails toVisitDetails(VisitEntity entity) {
         Optional<DoctorServiceEntity> serviceEntity = this.doctorService.findByIdAndDoctorId(entity.getMedicalService().getId(), entity.getDoctor().getId());
         return VisitDetails.builder()
+                .id(entity.getId())
                 .from(entity.getFrom())
                 .to(entity.getTo())
+                .patient(
+                        PatientResponse.builder()
+                                .name(entity.getPatient().getUser().getName())
+                                .surname(entity.getPatient().getUser().getSurname())
+                                .email(entity.getPatient().getUser().getEmail())
+                                .userId(entity.getPatient().getUser().getId())
+                                .id(entity.getPatient().getId())
+                                .pesel(entity.getPatient().getPesel())
+                                .userRole(entity.getPatient().getUser().getRole())
+                                .build()
+                )
                 .doctor(
                         DoctorResponse.builder()
                                 .name(entity.getDoctor().getUser().getName())
@@ -237,5 +280,13 @@ public class VisitService {
         return  this.visitRepository.findById(visitId)
                 .map(this::toVisitDetails)
                 .orElseThrow(() -> new VisitNotFoundException(visitId));
+    }
+
+    public List<VisitDetails> findVisitsByPatientId(Long patientId) {
+        return this.visitRepository.findAllByPatientId(patientId).stream().map(this::toVisitDetails).collect(Collectors.toList());
+    }
+
+    public List<VisitDetails> findVisitsByDoctorId(Long doctorId) {
+        return this.visitRepository.findAllByDoctorIdAndPatientIsNotNull(doctorId).stream().map(this::toVisitDetails).collect(Collectors.toList());
     }
 }

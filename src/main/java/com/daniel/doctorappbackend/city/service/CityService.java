@@ -21,6 +21,13 @@ public class CityService {
                 .map(this::mapToCityResponse).orElseThrow(() -> new CityNotFoundException(id));
     }
 
+    private CityResponse mapToCityResponse(CityEntity cityEntity) {
+        return CityResponse.builder()
+                .id(cityEntity.getId())
+                .name(cityEntity.getName())
+                .build();
+    }
+
     public Optional<CityEntity> findEntityById(Long id){
         return this.cityRepository.findById(id);
     }
@@ -31,12 +38,4 @@ public class CityService {
                 .map(this::mapToCityResponse)
                 .collect(Collectors.toList());
     }
-
-    private CityResponse mapToCityResponse(CityEntity cityEntity) {
-        return CityResponse.builder()
-                .id(cityEntity.getId())
-                .name(cityEntity.getName())
-                .build();
-    }
-
 }
