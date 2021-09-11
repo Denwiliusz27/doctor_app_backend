@@ -18,6 +18,7 @@ import com.daniel.doctorappbackend.user.model.dto.PatientResponse;
 import com.daniel.doctorappbackend.user.strategy.PatientStrategy;
 import com.daniel.doctorappbackend.visits.exception.VisitNotFoundException;
 import com.daniel.doctorappbackend.visits.model.VisitEntity;
+import com.daniel.doctorappbackend.visits.model.VisitType;
 import com.daniel.doctorappbackend.visits.model.dto.*;
 import com.daniel.doctorappbackend.visits.repository.VisitRepository;
 import lombok.RequiredArgsConstructor;
@@ -282,11 +283,35 @@ public class VisitService {
                 .orElseThrow(() -> new VisitNotFoundException(visitId));
     }
 
-    public List<VisitDetails> findVisitsByPatientId(Long patientId) {
-        return this.visitRepository.findAllByPatientId(patientId).stream().map(this::toVisitDetails).collect(Collectors.toList());
+    public List<VisitDetails> findVisitsByPatientId(Long patientId, VisitType type) {
+        if (type == VisitType.ALL) {
+            return this.visitRepository
+                    .findAllByPatientIdOrderByToDesc(patientId)
+                    .stream().map(this::toVisitDetails).collect(Collectors.toList());
+        } else if (type == VisitType.AFTER) {
+            return this.visitRepository
+                    .findAllByPatientIdAndFromIsBeforeOrderByToDesc(patientId, new Date())
+                    .stream().map(this::toVisitDetails).collect(Collectors.toList());
+        } else {
+            return this.visitRepository
+                    .findAllByPatientIdAndFromIsAfterOrderByToAsc(patientId, new Date())
+                    .stream().map(this::toVisitDetails).collect(Collectors.toList());
+        }
     }
 
-    public List<VisitDetails> findVisitsByDoctorId(Long doctorId) {
-        return this.visitRepository.findAllByDoctorIdAndPatientIsNotNull(doctorId).stream().map(this::toVisitDetails).collect(Collectors.toList());
+    public List<VisitDetails> findVisitsByDoctorId(Long doctorId, VisitType type) {
+        if (type == VisitType.ALL) {
+            return this.visitRepository
+                    .findAllByDoctorIdAndPatientIsNotNullOrderByToDesc(doctorId)
+                    .stream().map(this::toVisitDetails).collect(Collectors.toList());
+        } else if (type == VisitType.AFTER) {
+            return this.visitRepository
+                    .findAllByDoctorIdAndFromIsBeforeAndPatientIsNotNullOrderByToDesc(doctorId, new Date())
+                    .stream().map(this::toVisitDetails).collect(Collectors.toList());
+        } else {
+            return this.visitRepository
+                    .findAllByDoctorIdAndFromIsAfterAndPatientIsNotNullOrderByToAsc(doctorId, new Date())
+                    .stream().map(this::toVisitDetails).collect(Collectors.toList());
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.daniel.doctorappbackend.visits.controller;
 import com.daniel.doctorappbackend.medicalservice.exception.MedicalServiceNotFoundException;
 import com.daniel.doctorappbackend.user.exception.UserNotFoundException;
 import com.daniel.doctorappbackend.visits.exception.VisitNotFoundException;
+import com.daniel.doctorappbackend.visits.model.VisitType;
 import com.daniel.doctorappbackend.visits.model.dto.*;
 import com.daniel.doctorappbackend.visits.service.VisitService;
 import lombok.RequiredArgsConstructor;
@@ -38,13 +39,15 @@ public class VisitController {
     }
 
     @GetMapping("/details-list-by-doctor/{doctorId}")
-    public List<VisitDetails> getDetailsVisitByDoctorId(@PathVariable(name = "doctorId") Long doctorId) throws VisitNotFoundException {
-        return this.visitService.findVisitsByDoctorId(doctorId);
+    public List<VisitDetails> getDetailsVisitByDoctorId(@PathVariable(name = "doctorId") Long doctorId,
+                                                        @RequestParam(required = false, defaultValue = "ALL") VisitType type) throws VisitNotFoundException {
+        return this.visitService.findVisitsByDoctorId(doctorId, type);
     }
 
     @GetMapping("/details-list-by-patient/{patientId}")
-    public List<VisitDetails> getDetailsVisitByPatientId(@PathVariable(name = "patientId") Long patientId) throws VisitNotFoundException {
-        return this.visitService.findVisitsByPatientId(patientId);
+    public List<VisitDetails> getDetailsVisitByPatientId(@PathVariable(name = "patientId") Long patientId,
+                                                         @RequestParam(required = false, defaultValue = "ALL") VisitType type) throws VisitNotFoundException {
+        return this.visitService.findVisitsByPatientId(patientId, type);
     }
 
     @PutMapping()
