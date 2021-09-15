@@ -6,9 +6,9 @@ import java.util.Date;
 
 @Data
 public class CreateAvailabilityDoctorRequest {
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date from;
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date to;
     private Long doctorId;
 }

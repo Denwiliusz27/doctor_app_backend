@@ -9,10 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface MedicalServiceRepository extends JpaRepository<MedicalServiceEntity, Long> {
-    Optional<MedicalServiceEntity> findById(Long id);
-    Optional<MedicalServiceEntity> findByName(String name);
-
-    List<MedicalServiceEntity> findAll();
-
     List<MedicalServiceEntity> findAllBySpecializationId(Long specializationId);
+    Optional<MedicalServiceEntity> findById(Long id);
+    List<MedicalServiceEntity> findAll();
 }

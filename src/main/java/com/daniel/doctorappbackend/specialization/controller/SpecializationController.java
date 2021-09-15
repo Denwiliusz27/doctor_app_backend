@@ -20,7 +20,7 @@ public class SpecializationController {
         return specializationRepository.findAll();
     }
 
-    @GetMapping("/id/{specializationId}")
+   /* @GetMapping("/id/{specializationId}")
     public Optional<SpecializationEntity> getSpecializationById(@PathVariable Long specializationId){
         return specializationRepository.findById(specializationId);
     }
@@ -28,6 +28,6 @@ public class SpecializationController {
     @GetMapping("/nazwa/{specializationName}")
     public Optional<SpecializationEntity> getSpecializationBySpecializationName(@PathVariable String specializationName){
         return specializationRepository.findByName(specializationName);
-    }
+    }*/
 }
 

@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 @Data
-@SuperBuilder // tworzy nowy typ danych
+@SuperBuilder
 public class UserResponse {
     private Long userId;
     private Long id;

@@ -16,9 +16,11 @@ import java.util.stream.Collectors;
 public class CityService {
     private final CityRepository cityRepository;
 
-    public CityResponse findById(Long id) throws CityNotFoundException{
-        return this.cityRepository.findById(id)
-                .map(this::mapToCityResponse).orElseThrow(() -> new CityNotFoundException(id));
+    public List<CityResponse> findAll(){
+        return this.cityRepository.findAll()
+                .stream()
+                .map(this::mapToCityResponse)
+                .collect(Collectors.toList());
     }
 
     private CityResponse mapToCityResponse(CityEntity cityEntity) {
@@ -32,10 +34,9 @@ public class CityService {
         return this.cityRepository.findById(id);
     }
 
-    public List<CityResponse> findAll(){
-        return this.cityRepository.findAll()
-                .stream()
-                .map(this::mapToCityResponse)
-                .collect(Collectors.toList());
-    }
+/*
+    public CityResponse findById(Long id) throws CityNotFoundException{
+        return this.cityRepository.findById(id)
+                .map(this::mapToCityResponse).orElseThrow(() -> new CityNotFoundException(id));
+    }*/
 }

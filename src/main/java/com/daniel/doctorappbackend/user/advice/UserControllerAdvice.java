@@ -28,10 +28,4 @@ public class UserControllerAdvice {
     public UserErrorResponse handleUserExistException(UserExistException userExistException){
         return UserErrorResponse.USER_EXIST;
     }
-
-    /*
-    @ResponseStatus(value = HttpStatus.FOUND)
-    public String handleUserExist(UserExistException userExistException){
-        return userExistException.getMessage();
-    }*/
 }

@@ -103,9 +103,12 @@ public class VisitService {
                 .collect(Collectors.toList());
     }
 
-    public VisitResponse updateVisit(UpdateVisitRequest visitRequest) throws VisitNotFoundException, UserNotFoundException, MedicalServiceNotFoundException {
-        VisitEntity visit = this.visitRepository.findById(visitRequest.getId()).orElseThrow(() -> new VisitNotFoundException(visitRequest.getId()));
-        PatientEntity patientEntity = this.patientStrategy.findPatientById(visitRequest.getPatientId()).orElseThrow(UserNotFoundException::new);
+    public VisitResponse updateVisit(UpdateVisitRequest visitRequest) throws VisitNotFoundException,
+            UserNotFoundException, MedicalServiceNotFoundException {
+        VisitEntity visit = this.visitRepository.findById(visitRequest.getId()).orElseThrow(() ->
+                new VisitNotFoundException(visitRequest.getId()));
+        PatientEntity patientEntity = this.patientStrategy.findPatientById(visitRequest.getPatientId())
+                .orElseThrow(UserNotFoundException::new);
         MedicalServiceEntity medicalServiceEntity = this.medicalService.findById(visitRequest.getServiceId()).orElseThrow(() ->
                 new MedicalServiceNotFoundException(visitRequest.getServiceId()));
         visit.setPatient(patientEntity);
@@ -118,7 +121,7 @@ public class VisitService {
         return this.visitRepository.findById(id).map(this::mapToResponse).orElseThrow(() -> new VisitNotFoundException(id));
     }
 
-    public VisitWithDoctorResponse getVisitWithDoctorById(Long id) throws VisitNotFoundException {
+    /*public VisitWithDoctorResponse getVisitWithDoctorById(Long id) throws VisitNotFoundException {
         return this.visitRepository.findById(id).map(this::mapToResponseWithDoctor).orElseThrow(() -> new VisitNotFoundException(id));
     }
 
@@ -224,7 +227,7 @@ public class VisitService {
     public List<VisitWithPatientResponse> findVisitsWithPatientByDoctorId(Long id)  {
         return this.visitRepository.findAllByDoctorIdAndPatientIsNotNull(id).stream().map(this::mapToResponseWithPatient).collect(Collectors.toList());
     }
-
+*/
     public VisitDetails toVisitDetails(VisitEntity entity) {
         Optional<DoctorServiceEntity> serviceEntity = this.doctorService.findByIdAndDoctorId(entity.getMedicalService().getId(), entity.getDoctor().getId());
         return VisitDetails.builder()

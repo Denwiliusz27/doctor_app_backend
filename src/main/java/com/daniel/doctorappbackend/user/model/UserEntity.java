@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data  // gettery i settery
+@Data
 @Entity
 @Table(name = "users")
-@NoArgsConstructor // public User() {}
-@AllArgsConstructor  // public User(args)
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class UserEntity {
     @Id

@@ -16,7 +16,7 @@ public class DoctorServiceController {
     public DoctorServiceController(DoctorServiceRepository doctorServiceRepository) {
         this.doctorServiceRepository = doctorServiceRepository;
     }
-
+/*
     @GetMapping("/wszystkie")
     public List<DoctorServiceEntity> getAllDoctorServices(){
         return doctorServiceRepository.findAll();
@@ -35,7 +35,7 @@ public class DoctorServiceController {
     @GetMapping("/id-lekarza/{doctorId}")
     public List<DoctorServiceEntity> getDoctorServiceByDoctorId(@PathVariable Long doctorId){
         return doctorServiceRepository.findAllByDoctorId(doctorId);
-    }
+    }*/
 
     @PostMapping("/dodaj")
     public List<DoctorServiceEntity> addDoctorServices(@RequestBody List<DoctorServiceEntity> doctorServices){

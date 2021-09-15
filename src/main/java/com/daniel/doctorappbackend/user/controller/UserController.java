@@ -22,10 +22,16 @@ import java.util.Optional;
 @CrossOrigin
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor // tworzy konstruktor z polami private
+@RequiredArgsConstructor
 public class UserController {
     private final UserRepository userRepository;
     private final UserService userService;
+
+    @PostMapping("/create/doctor")
+    public UserResponse createDoctor(@RequestBody CreateDoctorRequest createDoctorRequest) throws UserExistException,
+            SpecializationNotFoundException, CityNotFoundException, MedicalServiceNotFoundException {
+        return this.userService.createUser(createDoctorRequest, UserRole.DOCTOR);
+    }
 
     @PostMapping("/login")
     public UserResponse login(@RequestBody LoginUserRequest loginUserRequest) throws UserNotFoundException, InvalidPasswordException {
@@ -35,11 +41,6 @@ public class UserController {
     @PostMapping("/create/patient")
     public UserResponse createPatient(@RequestBody CreatePatientRequest createPatientRequest) throws UserExistException, SpecializationNotFoundException, CityNotFoundException, MedicalServiceNotFoundException {
         return this.userService.createUser(createPatientRequest, UserRole.PATIENT);
-    }
-
-    @PostMapping("/create/doctor")
-    public UserResponse createDoctor(@RequestBody CreateDoctorRequest createDoctorRequest) throws UserExistException, SpecializationNotFoundException, CityNotFoundException, MedicalServiceNotFoundException {
-        return this.userService.createUser(createDoctorRequest, UserRole.DOCTOR);
     }
 
     @GetMapping("id/{userId}")

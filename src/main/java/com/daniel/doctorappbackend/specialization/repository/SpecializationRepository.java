@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface SpecializationRepository extends JpaRepository<SpecializationEntity, Long> {
     List<SpecializationEntity> findAll();
 
-    Optional<SpecializationEntity> findByName(String specializationName);
+    /*Optional<SpecializationEntity> findByName(String specializationName);*/
 }

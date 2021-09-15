@@ -51,10 +51,11 @@ public class VisitController {
     }
 
     @PutMapping()
-    public VisitResponse updateVisit(@RequestBody() UpdateVisitRequest visitRequest) throws UserNotFoundException, VisitNotFoundException, MedicalServiceNotFoundException {
+    public VisitResponse updateVisit(@RequestBody() UpdateVisitRequest visitRequest) throws UserNotFoundException,
+            VisitNotFoundException, MedicalServiceNotFoundException {
         return this.visitService.updateVisit(visitRequest);
     }
-
+/*
     @GetMapping("/visitWithDoctor/id")
     public VisitWithDoctorResponse getVisitWithDoctorById(@RequestParam(name = "visitId") Long visitId) throws VisitNotFoundException {
         return this.visitService.getVisitWithDoctorById(visitId);
@@ -68,6 +69,6 @@ public class VisitController {
     @GetMapping("/visitWithPatient/doctor")
     public List<VisitWithPatientResponse> getVisitsByDoctorId(@RequestParam(name="doctorId") Long doctorId)  {
         return this.visitService.findVisitsWithPatientByDoctorId(doctorId);
-    }
+    }*/
 }
 
