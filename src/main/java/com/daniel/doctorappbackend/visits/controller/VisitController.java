@@ -55,20 +55,6 @@ public class VisitController {
             VisitNotFoundException, MedicalServiceNotFoundException {
         return this.visitService.updateVisit(visitRequest);
     }
-/*
-    @GetMapping("/visitWithDoctor/id")
-    public VisitWithDoctorResponse getVisitWithDoctorById(@RequestParam(name = "visitId") Long visitId) throws VisitNotFoundException {
-        return this.visitService.getVisitWithDoctorById(visitId);
-    }
 
-    @GetMapping("/visitWithDoctor/patient")
-    public List<VisitWithDoctorResponse> getVisitsByPatientId2(@RequestParam(name = "patientId") Long patientId) {
-        return this.visitService.findWithDoctorByPatientId(patientId);
-    }
-
-    @GetMapping("/visitWithPatient/doctor")
-    public List<VisitWithPatientResponse> getVisitsByDoctorId(@RequestParam(name="doctorId") Long doctorId)  {
-        return this.visitService.findVisitsWithPatientByDoctorId(doctorId);
-    }*/
 }
 

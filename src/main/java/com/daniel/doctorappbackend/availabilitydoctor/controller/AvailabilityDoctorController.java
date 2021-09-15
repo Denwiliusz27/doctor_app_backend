@@ -16,25 +16,16 @@ import java.util.List;
 public class AvailabilityDoctorController {
     private final AvailabilityDoctorService availabilityDoctorService;
 
-    /*
-    Funkcja odbierająca żądanie GET, w celu pobrania dostępności lekarza o podanym id
-    */
     @GetMapping()
     public List<AvailabilityDoctorResponse> findById(@RequestParam(name = "doctorId") Long doctorId) {
         return this.availabilityDoctorService.findByDoctorId(doctorId);
     }
 
-    /*
-    Funkcja odbierająca żądanie POST, w celu dodania dostępności lekarza o podanym id do bazy
-    */
     @PostMapping
     public AvailabilityDoctorResponse add(@RequestBody CreateAvailabilityDoctorRequest request) throws UserNotFoundException {
         return this.availabilityDoctorService.add(request);
     }
 
-    /*
-    Funkcja odbierająca żądanie DELETE, w celu usunięcia dostępności o podanym id
-    */
     @DeleteMapping("{id}")
     public void deleteById(@PathVariable Long id) {
         this.availabilityDoctorService.delete(id);

@@ -15,7 +15,6 @@ public interface VisitRepository extends JpaRepository<VisitEntity, Long> {
     List<VisitEntity> findAllByPatientIdAndFromIsAfterOrderByToAsc(Long id, Date date);
     List<VisitEntity> findAllByPatientIdAndFromIsBeforeOrderByToDesc(Long id, Date date);
     List<VisitEntity> findAllByDoctorIdAndPatientIsNotNull(Long id);
-
     List<VisitEntity> findAllByDoctorIdAndPatientIsNotNullOrderByToDesc(Long id);
     List<VisitEntity> findAllByDoctorIdAndFromIsAfterAndPatientIsNotNullOrderByToAsc(Long id, Date date);
     List<VisitEntity> findAllByDoctorIdAndFromIsBeforeAndPatientIsNotNullOrderByToDesc(Long id, Date date);

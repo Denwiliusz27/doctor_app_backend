@@ -4,9 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import java.util.Date;
 
-/*
-klasa reprezentująca obiekt dostępności lekarza, który wysyłany jest 
- */
 @Data
 @Builder
 public class AvailabilityDoctorResponse {

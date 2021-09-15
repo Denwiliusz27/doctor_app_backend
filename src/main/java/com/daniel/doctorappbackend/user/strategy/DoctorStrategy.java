@@ -59,7 +59,6 @@ public class DoctorStrategy implements UserStrategy<DoctorResponse>{
                 .orElseThrow(UserNotFoundException::new);
     }
 
-    /* fragment tworzący nowego użytkownika wraz z usługami, które wybrał */
     @Override
     public <U extends CreateUserRequest> DoctorResponse createUser(U createUserRequest) throws UserExistException,
             SpecializationNotFoundException, CityNotFoundException, MedicalServiceNotFoundException {

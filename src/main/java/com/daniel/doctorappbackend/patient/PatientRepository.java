@@ -10,8 +10,4 @@ import java.util.Optional;
 public interface PatientRepository extends JpaRepository<PatientEntity, Long> {
     List<PatientEntity> findAll();
     Optional<PatientEntity> findByUserEmailAndUserPassword(String email, String password);
-
-   /* Optional<PatientEntity> findByPatientPesel(String pesel);
-
-    Optional<PatientEntity> findByPatientEmailAddress(String email);*/
 }

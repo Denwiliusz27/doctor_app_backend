@@ -18,9 +18,4 @@ public class CityController {
     public List<CityResponse> getAllCities(){
         return this.cityService.findAll();
     }
-
-    /*@GetMapping("/get/{cityId}")
-    public CityResponse getCityById(@PathVariable long cityId) throws CityNotFoundException {
-        return this.cityService.findById(cityId);
-    }*/
 }

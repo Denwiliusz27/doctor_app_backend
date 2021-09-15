@@ -33,10 +33,4 @@ public class CityService {
     public Optional<CityEntity> findEntityById(Long id){
         return this.cityRepository.findById(id);
     }
-
-/*
-    public CityResponse findById(Long id) throws CityNotFoundException{
-        return this.cityRepository.findById(id)
-                .map(this::mapToCityResponse).orElseThrow(() -> new CityNotFoundException(id));
-    }*/
 }
